@@ -1,0 +1,169 @@
+
+[Manage Operation Mode]
+:Properties
+Sheetname | Operation Mode
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+:Pre-Steps
+Operation Mode | button | xpath | //span[text()='Operation Modes']
+Edit | button | xpath | //span[text()='Edit']
+:Fields
+Career Selection | select | xpath | //span[text()='Career Section']/../../..//select
+Legacy Onboarding | select | xpath | //span[text()='Legacy Onboarding']/../../..//select
+NewHirePortal | select | xpath | //span[text()='NewHirePortal']/../../..//select
+Onboarding (Transitions) | select | xpath | //span[text()='Onboarding (Transitions)']/../../..//select
+Performance | select | xpath | //span[text()='Performance']/../../..//select
+Recruiting | select | xpath | //span[text()='Recruiting']/../../..//select
+:Post-Steps
+Save | button | xpath | //span[contains(@class,'bottom')]//span[text()='Save']
+:Undo-Steps
+Cancel Edit | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+
+[Create Organization Structure]
+:Properties
+Sheetname | Organization Structure
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+:Pre-Steps
+Element Management | button | xpath | //span[text()='Organizations']/..//span[text()='Element Management']
+Create | button | xpath | //span[text()='Create']
+:Fields
+*Code | textbox | xpath | //label[text()='Code']/../input
+*Description | textbox | xpath | //label[text()='Description']/../input
+Search | button | xpath | //label[text()='Associated Reference Industry']/..//span[text()='Search']
+Industry Selector | nullable | xpath | //h1/span[text()='Industry Selector']
+*Associated Reference Industry | textbox | xpath | //input[@type='text']
+Refresh | button | xpath | //span[text()='Refresh']
+Search Result | button | xpath | //span[text()='$.s*Associated Reference Industry'] | wait 12 -c :throws InvalidAssociatedReferenceIndustry
+Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Select']
+Sequence Number | textbox | xpath | //label[text()='Sequence Number']/../input
+Search | button | xpath | //label[text()='Business Organization']/..//span[text()='Search']
+Business Organization Selector | nullable | xpath | //h1/span[text()='Business Organization Selector']
+*Business Organization | textbox | xpath | //input[@type='text']
+Refresh | button | xpath | //span[text()='Refresh']
+Search Result | button | xpath | //span[text()='$.s*Business Organization']/../../td/input | wait 12 -c :throws InvalidBusinessOrganization
+Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Select']
+Status | select | xpath | //label[text()='Status']/..//select
+:Post-Steps
+Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
+:Undo-Steps
+case: InvalidAssociatedReferenceIndustry
+Cancel Search | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+end esac
+case: InvalidBusinessOrganization
+Cancel Search | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+end esac
+
+[Create Locations]
+:Properties
+Sheetname | Locations
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+:Pre-Steps
+Element Management | button | xpath | //span[text()='Locations']/..//span[text()='Element Management']
+Create | button | xpath | //span[text()='Create']
+:Fields
+*Code | textbox | xpath | //label[text()='Code']/../input
+*Description | textbox | xpath | //label[text()='Description']/../input
+Abbreviation | textbox | xpath | //label[text()='Abbreviation']/../input
+Sequence Number | textbox | xpath | //label[text()='Sequence Number']/../input
+Zip/Postal Code | textbox | xpath | //label[contains(@id,'ZipCode')]/../input
+Search | button | xpath | //label[text()='Associated Reference Location']/..//span[text()='Search']
+Location Selector | nullable | xpath | //h1/span[text()='Location Selector']
+*Associated Reference Location | textbox | xpath | //input[@type='text']
+Refresh | button | xpath | //span[text()='Refresh']
+Search Result | button | xpath | //span[text()='$.s*Associated Reference Location']/../../../td/input | wait 12 -c :throws InvalidAssociatedReferenceLocation
+Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Select']
+Status | select | xpath | //label[text()='Status']/../select
+:Post-Steps
+Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
+:Undo-Steps
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+case: InvalidAssociatedReferenceLocation
+Cancel Search | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+end esac
+
+[Create Job Fields]
+:Properties
+Sheetname | Job Fields
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+:Pre-Steps
+Element Management | button | xpath | //span[text()='Job Fields']/..//span[text()='Element Management']
+Create | button | xpath | //span[text()='Create']
+:Fields
+*Code | textbox | xpath | //label[text()='Code']/../input
+Search | button | xpath | //label[text()='Associated Reference Job Field']/..//span[text()='Search']
+Job Field Selector | nullable | xpath | //h1/span[text()='Job Field Selector']
+*Associated Reference Job Field | textbox | xpath | //input[@type='text']
+Refresh | button | xpath | //span[text()='Refresh']
+Search Result | button | xpath | //span[text()='$.s*Associated Reference Job Field']/../../td/input | wait 12 -c :throws InvalidAssociatedReferenceJobField
+Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Select']
+*Description | textbox | xpath | //label[text()='Description']/../input
+Sequence Number | textbox | xpath | //label[text()='Sequence Number']/../input
+Status | select | xpath | //label[text()='Status']/../select
+:Post-Steps
+Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
+:Undo-Steps
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+case: InvalidAssociatedReferenceJobField
+Cancel Search | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+end esac
+
+[Manage Configuration Profiles]
+:Properties
+Sheetname | Configuration Profiles
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+:Pre-Steps
+Configuration Profiles | button | xpath | //span[text()='Users']/..//span[text()='Configuration Profiles']
+:Fields
+Configuration Profiles | nullable | xpath | //h1/span[text()='Configuration Profiles'] | 'case $.sAction'
+case: Create
+Create | button | xpath | //span[text()='Create']
+setExcelCol: *Code
+resume esac
+case: Edit
+//Refine By | select | xpath | //span[text()='Refine by']/../select
+//Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
+setExcelCol: *Code
+Code | button | xpath | //td/a/span[text()='$.s*Code']
+Profile | nullable | xpath | //span[contains(text(),'$.s*Code') and contains(text(),'Profile - ')]
+Edit | button | xpath | //span[text()='Edit']
+setExcelCol: New Code
+resume esac
+*Code | textbox | xpath | //label[text()='Code']/../input
+*Name | textbox | xpath | //label[text()='Name']/../input
+Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
+Activate Profile | button | xpath | //a[contains(@title,'$.sProfile') and contains(@title,'profile')]//span[text()='$.sProfile'] | wait 5 -c :
+:Post-Steps
+SmartOrg | button | xpath | //a[text()='SmartOrg Administration']
+Header | nullable | xpath | //h1/span[text()='SmartOrg Administration']
+:Undo-Steps
+Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+
+
+
+
+
+
+
+
