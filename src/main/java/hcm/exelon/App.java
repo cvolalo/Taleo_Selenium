@@ -57,7 +57,7 @@ public class App
     	
     	System.out.println("Initializing drivers...");
     	sel.initializeDriver(hub, browser, workspace, excel);
-		System.out.println("Running Test in FireFox");
+		System.out.println("Running Test in " + browser);
 		
     	System.out.println("Drivers Initialized.");
     	
