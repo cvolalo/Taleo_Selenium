@@ -48,6 +48,7 @@ public class SeleniumDriver {
 	private ExcelReader excelReader = null;
 	public static WebDriver driver;
 	private static WebDriver augmentedDriver;
+	WebElement frame;
 	private String caseName;
 	private String workspace_path;
 	// Case-dependent variables
@@ -379,11 +380,11 @@ public class SeleniumDriver {
 				String caseId = "";
 				boolean isFound = false, waitImmunity = false, isAnArrayAction = false;
 				// boolean array = false;
+				//Comment Parser
 				if (step[0].startsWith("//")){
 					iteration += 1;
 					continue fieldloop;
 				} 
-				
 				// Case Handler
 				if (current.contains("esac")) {
 					iteration += 1;
@@ -770,8 +771,8 @@ public class SeleniumDriver {
 		int STEP_TIMEOUT = MAX_TIMEOUT;
 		System.out.println("Executing " + steps + ".");
 
-		stepsloop: while (elements.hasMoreElements()) 
-		{
+		stepsloop: while (elements.hasMoreElements()) {
+
 			String current = elements.nextElement();
 			String[] step = current.split(" \\| ");
 			int colNum = 0;
@@ -1004,6 +1005,17 @@ public class SeleniumDriver {
 				} else if (type.contentEquals("radio")) {
 					element.click();
 
+				} else if (type.contentEquals("switch")) {
+					if (type.contentEquals("default")) {
+						driver.switchTo().defaultContent();
+						System.out.println("Frame switch to default.");
+					} else{
+					//WebElement frame = driver.findElement(By.xpath("//frame[@name='ContentFrame']"));
+					frame = driver.findElement(getLocator(locatorType,locator));
+					driver.switchTo().frame(frame);
+					System.out.println("Frame switch to " + frame);
+					}
+					
 				} else if (type.contentEquals("checkbox")) {
 					// wait.until(ExpectedConditions.presenceOfElementLocated(getLocator(locatorType,locator)));
 					boolean isChecked = TaskUtilities.jsGetCheckboxTickStatus(locatorType, locator);

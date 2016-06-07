@@ -83,14 +83,32 @@ public class ArgumentExecutor {
 			i += 1;
 		}
 		
-		if(data.toLowerCase().trim().contains("yes") || data.toLowerCase().trim().contains("true")){
+	/*	if(data.toLowerCase().trim().contains("yes") || data.toLowerCase().trim().contains("true")){
 				System.out.println("Non-skippable task...");
 				return trueArray;
 			}else if(excelReader.getCellData(rowNum, colNum).toLowerCase().contains("no")
 					|| data.isEmpty() || data.contains("blank")	|| data.toLowerCase().contains("false")){
 				System.out.println("Skippable task found...");
 				return falseArray;
+			}*/
+		
+		//06/01
+		if(!data.isEmpty()){
+			if(data.toLowerCase().trim().contains("yes") || data.toLowerCase().trim().contains("true")){
+				System.out.println("Non-skippable task...");
+				return trueArray;
+			} else if(excelReader.getCellData(rowNum, colNum).toLowerCase().contains("no")
+					|| data.contains("blank")	|| data.toLowerCase().contains("false")){
+				System.out.println("Skippable task found...");
+				return falseArray;
+			} else{
+				return trueArray;
 			}
+			
+		} else	{
+			return falseArray;
+		}
+	} 
 		
 		/*while(excelReader.getCellData(defaultLabelRow, colNum).length()>0){
 			
@@ -108,8 +126,8 @@ public class ArgumentExecutor {
 			
 			colNum += 1;
 		}*/
-		return falseArray;
-	}
+	//	return falseArray;
+//	}
 	public static String executeThrower(String statement) throws Exception{
 		statement = getArgumentStatement(statement, "throws");
 		if(statement.indexOf(":") != -1){

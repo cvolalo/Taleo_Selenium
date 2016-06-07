@@ -491,6 +491,7 @@ public class TaskUtilities{
 			jsLocator+"(\""+value+"\").scrollIntoView(true);"
 		);
 		
+
 		driver.manage().timeouts().implicitlyWait(500, TimeUnit.MILLISECONDS);
 		fluentWaitForElementInvisibility("//div[text()='Fetching Data...']", "Fetching Data...", 10);
 	}

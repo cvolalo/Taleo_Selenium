@@ -1,4 +1,3 @@
-
 [Manage Operation Mode]
 :Properties
 Sheetname | Operation Mode
@@ -29,10 +28,13 @@ Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
 Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
-:Pre-Steps
 Element Management | button | xpath | //span[text()='Organizations']/..//span[text()='Element Management']
 Create | button | xpath | //span[text()='Create']
+:Pre-Steps
 :Fields
+error message | nullable | xpath | //span[@id='list-list-errorMessageBox-errorMessages'] | wait 10 -c throws CannotCreate :
+Language | select | xpath | //label[text()='Language']/../select
+Refresh | button | xpath | //span[text()='Refresh']
 *Code | textbox | xpath | //label[text()='Code']/../input
 *Description | textbox | xpath | //label[text()='Description']/../input
 Search | button | xpath | //label[text()='Associated Reference Industry']/..//span[text()='Search']
@@ -49,9 +51,12 @@ Refresh | button | xpath | //span[text()='Refresh']
 Search Result | button | xpath | //span[text()='$.s*Business Organization']/../../td/input | wait 12 -c :throws InvalidBusinessOrganization
 Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Select']
 Status | select | xpath | //label[text()='Status']/..//select
+Refresh | button | xpath | //span[text()='Refresh']
 :Post-Steps
 Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
 :Undo-Steps
+case: CannotCreate
+end esac
 case: InvalidAssociatedReferenceIndustry
 Cancel Search | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
 Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
@@ -69,10 +74,12 @@ Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
 Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
-:Pre-Steps
 Element Management | button | xpath | //span[text()='Locations']/..//span[text()='Element Management']
 Create | button | xpath | //span[text()='Create']
+:Pre-Steps
 :Fields
+Language | select | xpath | //label[text()='Language']/../select
+Refresh | button | xpath | //span[text()='Refresh']
 *Code | textbox | xpath | //label[text()='Code']/../input
 *Description | textbox | xpath | //label[text()='Description']/../input
 Abbreviation | textbox | xpath | //label[text()='Abbreviation']/../input
@@ -85,6 +92,7 @@ Refresh | button | xpath | //span[text()='Refresh']
 Search Result | button | xpath | //span[text()='$.s*Associated Reference Location']/../../../td/input | wait 12 -c :throws InvalidAssociatedReferenceLocation
 Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Select']
 Status | select | xpath | //label[text()='Status']/../select
+Refresh | button | xpath | //span[text()='Refresh']
 :Post-Steps
 Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
 :Undo-Steps
@@ -102,10 +110,12 @@ Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
 Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
-:Pre-Steps
 Element Management | button | xpath | //span[text()='Job Fields']/..//span[text()='Element Management']
 Create | button | xpath | //span[text()='Create']
+:Pre-Steps
 :Fields
+Language | select | xpath | //label[text()='Language']/../select
+Refresh | button | xpath | //span[text()='Refresh']
 *Code | textbox | xpath | //label[text()='Code']/../input
 Search | button | xpath | //label[text()='Associated Reference Job Field']/..//span[text()='Search']
 Job Field Selector | nullable | xpath | //h1/span[text()='Job Field Selector']
@@ -116,6 +126,7 @@ Select | button | xpath | //span[@class='button-group-left-bottom']//span[text()
 *Description | textbox | xpath | //label[text()='Description']/../input
 Sequence Number | textbox | xpath | //label[text()='Sequence Number']/../input
 Status | select | xpath | //label[text()='Status']/../select
+Refresh | button | xpath | //span[text()='Refresh']
 :Post-Steps
 Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
 :Undo-Steps
@@ -162,7 +173,247 @@ Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span
 
 
 
+[Create User Accounts]
+:Properties
+Sheetname | User Accounts
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+User Accounts | button | xpath | //span[text()='User Accounts']/../../a
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']
+:Fields
+*First Name | textbox | xpath | //span[text()='First Name']/../input
+Middle Name | textbox | xpath | //span[text()='Middle Name']/../input
+*Last Name | textbox | xpath | //span[text()='Last Name']/../input
+Prefix | textbox | xpath | //span[text()='Prefix']/../input
+Suffix | textbox | xpath | //span[text()='Suffix']/../input
+Employee ID | textbox | xpath | //span[text()='Employee ID']/../input
+Title | textbox | xpath | //span[text()='Title']/../input
+City | textbox | xpath | //span[text()='City']/../input
+State/Province | textbox | xpath | //span[text()='State/Province']/../input
+Zip/Postal Code | textbox | xpath | //span[text()='Zip/Postal Code']/../input
+Country | textbox | xpath | //span[text()='Country']/../input
+*Email | textbox | xpath | //span[text()='Email Address']/../input
+Personal Email Address | textbox | xpath | //span[text()='Personal Email Address']/../input
+Corporate Email Address | textbox | xpath | //span[text()='Corporate Email Address']/../input
+Work Phone Number | textbox | xpath | //span[text()='Work Phone Number']/../input
+Ext. | textbox | xpath | //span[text()='Ext.']/../input
+Fax Number | textbox | xpath | //span[text()='Fax Number']/../input
+Cellular Phone Number | textbox | xpath | //span[text()='Cellular Phone Number']/../input
+Pager Number | textbox | xpath | //span[text()='Pager Number']/../input
+Home Phone Number | textbox | xpath | //span[text()='Home Phone Number']/../input
+Next | button | xpath | //span[text()='Next']
+Employee Status | select | xpath | //span[text()='Employee Status']/../select
+Next | button | xpath | //span[text()='Next']
+*User Name | textbox | xpath | //span[text()='User Name']/../input
+*Password | textbox | xpath | //span[text()='Password']/../input
+*Confirm Password | textbox | xpath | //span[text()='Confirm Password']/../input
+Next | button | xpath | //span[text()='Next']
+Next | button | xpath | //span[text()='Next']
+Next | button | xpath | //span[text()='Next']
+:Post-Steps
+Finish | button | xpath | //span[text()='Finish']
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+case: Default
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+end esac
 
+
+[Manage User Groups]
+:Properties
+Sheetname | User Groups
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+User Groups | button | xpath | //span[text()='User Groups']
+Create | button | xpath | //span[text()='Create']
+:Pre-Steps
+:Fields
+Language | select | xpath | //span[@class='filter']/select
+Refresh | button | xpath | //span[text()='Refresh']
+*Code | textbox | xpath | //label[text()='Code']/../input
+*Name | textbox | xpath | //label[text()='Name']/../input
+:Post-Steps
+Save | button | xpath | //span[text()='Save']
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']
+
+[Manage Security Policies]
+:Properties
+Sheetname | Security Policies
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Security Policies | button | xpath | //span[text()='Security Policies']
+:Pre-Steps
+:Fields
+Sign-in Edit | button | xpath | //span[text()='Sign In']/..//span[text()='Edit']
+Value | select | xpath | //select
+Save | button | xpath | //a[contains(@id, 'bottom_save')]//span[text()='Save']
+User Account Edit | button | xpath | //span[text()='User Accounts']/..//span[text()='Edit']
+Number Select | select | xpath | //td[contains(text(),'Number of incorrect sign-in')]/..//select
+Period Select | select | xpath | //td[contains(text(),'Period during which the system')]/..//select
+Email Select | select | xpath | //td[contains(text(),'send an email')]/..//select
+Name Select | select | xpath | //td[contains(text(),'generate automatically a user name')]/..//select
+Password Select | select | xpath | //td[contains(text(),'generate automatically a password')]/..//select
+Save | button | xpath | //a[contains(@id, 'bottom_save')]//span[text()='Save']
+Password Edit | button | xpath | //span[text()='Password']/..//span[text()='Edit']
+Valid | textbox | xpath | //td[contains(text(),'password to be valid for X days ')]/..//input
+Reuse | textbox | xpath | //td[contains(text(),'password change is required')]/..//input
+Select1 | select | xpath | //tr[3]/td[contains(text(),'contain at least X characters')]/..//select
+Select2 | select | xpath | //td[contains(text(),'contain no more than X characters')]/..//select
+Select3 | select | xpath | //tr[5]/td[contains(text(),'letters of the Roman alphabet')]/..//select
+Select4 | select | xpath | //td[contains(text(),'lowercase letters of the Roman alphabet')]/..//select
+Select5 | select | xpath | //td[contains(text(),'uppercase letters of the Roman alphabet')]/..//select
+Select6 | select | xpath | //td[contains(text(),'numeric characters')]/..//select
+Select7 | select | xpath | //td[contains(text(),'other than letters and numbers')]/..//select
+Select8 | select | xpath | //td[contains(text(),'identical consecutive characters')]/..//select
+Select9 | select | xpath | //td[contains(text(),'first name')]/..//select
+Select10 | select | xpath | //td[contains(text(),'last name')]/..//select
+Select11 | select | xpath | //td[contains(text(),'corresponding user name')]/..//select
+Select12 | select | xpath | //td[contains(text(),'email address')]/..//select
+Save | button | xpath | //a[contains(@id, 'bottom_save')]//span[text()='Save']
+:Post-Steps
+:Undo-Steps 
+
+[Manage Standard Fields]
+:Properties
+Sheetname | Standard Fields
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Recruiting Administration | button | xpath | //span[text()='Recruiting']/../a/span[text()='Administration']
+Candidate Field | button | xpath | //span[text()='Candidate']
+:Pre-Steps
+:Fields
+Show Fields | select | xpath | //span[text()='Show Fields']/../span/select
+Taleo Field Label | button | xpath | //span[text()='$.s*Taleo Field Label']
+Edit Field Availability | button | xpath | //span[text()='Edit Field Availability']
+setExcelCol: Field Availability - Taleo Recruiting
+Field Availability - Taleo Recruiting | checkbox | xpath | //label[text()=' Taleo Recruiting']/input
+Field Availability - Career Section | checkbox | xpath | //label[text()=' Career Section']/input
+Field Availability - Candidate Search | checkbox | xpath | //label[text()=' Candidate Search']/input
+Field Availability - History | checkbox | xpath | //label[text()=' History']/input
+Content Required | select | xpath | //span[text()='Content Required']/../select
+Security Level | select | xpath | //span[text()='Security level']/../select
+Save | button | xpath | //span[text()='Save']
+
+
+[Create User Defined Files]
+:Properties
+Sheetname | Create User Defined Files
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administrations | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+:Pre-Steps
+Header | h1 | xpath | //span[text()='Taleo Recruiting Administration']
+User-defined Files | button | xpath | //span[text()='User-defined Files']
+Duplicate | button | xpath | //span[text()='Candidate_Profile']/../..//span[text()='Duplicate']/../../..
+:Fields
+*Code | textbox | xpath | //label[contains(text(),'Code')]/..//input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/..//input
+Description | textbox | xpath | //label[contains(text(),'Description')]/..//input
+Save | button | xpath | //span[text()='Save']/../../..
+Error-check | button | xpath | //span[text()='The action cannot be completed.'] | wait 8 -c throws Default:
+:Post-Steps
+Header | button | xpath | //span[text()='User-defined Files']
+TRA | button | xpath | //a[text()='Taleo Recruiting Administration']
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | button | xpath | //span[text()='User-defined Files']
+TRA | button | xpath | //a[text()='Taleo Recruiting Administration']
+case: Default
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | button | xpath | //span[text()='User-defined Files']
+TRA | button | xpath | //a[text()='Taleo Recruiting Administration']
+end esac
+
+[Create User Defined Forms]
+:Properties
+Sheetname | Create User Defined Forms
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+:Pre-Steps
+User Defined Forms | button | xpath | //span[text()='File Configuration']/..//span[text()='User-defined Forms']
+Duplicate | button | xpath | //span[text()='COR_CPI_FORM']/../..//span[text()='Duplicate']
+Duplicate Name | button | xpath | //span[text()='COR_CPI_FORM(copy)']/../..//span/a/span[text()='COR - Candidate Personal Information']
+:Fields
+Code | textbox | xpath | //label[text()='Code']/../input
+Name | textbox | xpath | //label[text()='Name']/../input
+Description | textbox | xpath | //label[text()='Description']/../input
+Save | button | xpath | //span[text()='Save']/../../..
+Error Check | button | xpath | //span[text()='The action cannot be completed.'] | wait 8 -c throws Default:
+:Post-Steps
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+case: Default
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+end esac
+
+
+
+[Manage Candidate File Setup]
+:Properties
+Sheetname | Candidate Files
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Candidate File Setup | button | xpath | //a/span[text()='Candidate File Setup']
+Edit | button | xpath | //span[text()='Edit']
+:Pre-Steps
+:Fields
+general profiles | select | xpath | //span[text()='Activated candidate file for viewing and editing general profiles']/../select
+job submissions | select | xpath | //span[text()='Activated candidate file for viewing and editing job submissions']/../select
+array | 2
+Add Staffing Type | button | xpath | //span[text()='Add Staffing Type']
+dropdown1 | select | xpath | (//span[@class='flowcontext-hiretype-group'])[last()]/span/select
+dropdown2 | select | xpath | (//span[@class='flowcontext-hiretype-group'])[last()]/select
+stop
+:Post-Steps
+save | button | xpath | //span[text()='Save']
+:Undo-Steps
+cancel | button | xpath | //span[text()='Cancel']
+
+
+
+[Manage Requisition File Setup]
+:Properties
+Sheetname | Requisition Files
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Requisition File Setup | button | xpath | //a/span[text()='Requisition File Setup']
+Edit | button | xpath | //span[text()='Edit']
+:Pre-Steps
+:Fields
+requisition template | select | xpath | //span[text()='Activated file for creating requisition templates']/../select
+add staffing type | button | xpath | (//span[text()='Add Staffing Type'])[4]
+:Post-Steps
+save | button | xpath | //span[text()='Save']
+:Undo-Steps
+cancel | button | xpath | //span[text()='Cancel']
 
 
 
