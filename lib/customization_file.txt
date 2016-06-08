@@ -171,7 +171,35 @@ Header | nullable | xpath | //h1/span[text()='SmartOrg Administration']
 :Undo-Steps
 Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
 
-
+[Create Matching Candidate Filters]
+:Properties
+Sheetname | Matching Candidate Filters
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+:Pre-Steps
+Candidate Filters | button | xpath | //span[text()='Process']/..//span[text()='Matching Candidate Filters']
+:Fields
+Frame | switch | xpath | //frame[@name='ContentFrame']
+setExcelCol: Invite internal candidates
+Invite internal candidates | checkbox | xpath | //input[@name='checkboxInviteInternalCandidates']
+Invite external candidates | checkbox | xpath | //input[@name='checkboxInviteExternalCandidates']
+Location | select | xpath | //select[@name='selectLocation']
+Last Update | select | xpath | //select[@name='lastUpdate']
+Last Update Incomplete | select | xpath | //select[@name='lastUpdateIncomplete']
+Application Status | multiple select | xpath | //select[@name='selectApplicationStatus']
+Radio Option | radio | xpath | //span[text()='$.sOption']/../..//input
+Source Types | select | xpath | //select[@name='availableSourceTypes']
+Available Sources | select | xpath | //select[@name='availableSources']
+Default Frame | switch default | xpath | //select[@name='availableSources']
+Frame | switch | xpath | //frame[@name='HeaderFrame']
+//Save | button | xpath | //a[text()='Save']
+:Post-Steps
+Cancel | button | xpath | //a[text()='Cancel']
+:Undo-Steps
+Cancel | button | xpath | //a[text()='Cancel']
 
 [Create User Accounts]
 :Properties
