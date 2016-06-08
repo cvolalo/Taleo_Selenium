@@ -513,7 +513,7 @@ public class SeleniumDriver {
 				} else {
 
 					if ((data.isEmpty() || data.contains("blank"))&& !step[1].contains("button") 
-							&& !step[1].contains("skippable") && !current.contains("trigger:")) {
+							&& !step[1].contains("skippable") && !current.contains("trigger:") && !current.contains("switch")) {
 						System.out.print(step[0] + " is empty.\n");
 					} else {
 						current = ArgumentHandler.executeArgumentConverter(current, excelReader, rowNum, rowGroup, colNum);
@@ -975,10 +975,28 @@ public class SeleniumDriver {
 
 				} else if (type.contains("select")) {
 					// wait.until(ExpectedConditions.elementToBeClickable(getLocator(locatorType,locator)));
+					Select select = new Select(element);
+					
 					if (type.contentEquals("select")) {
-						new Select(element).selectByVisibleText(data);
+						select.selectByVisibleText(data);
+						System.out.println(data + " is selected.");
 						element.sendKeys(Keys.ENTER);
-					} else {
+					}else if (type.contains("multiple")){
+						select.deselectAll();
+						String multipleSel[] = data.split(",");
+						for (String valueToBeSelected : multipleSel) {
+							select.selectByVisibleText(valueToBeSelected);
+							System.out.println(valueToBeSelected + " is selected.");
+							element.sendKeys(Keys.CONTROL);
+						   }
+					}else if(type.contains("index")){
+						String value[] = data.split("-");
+						int index = Integer.parseInt(value[0]);
+						if(value[1].equals(select.getFirstSelectedOption().getText()));
+						else select.selectByIndex(index);
+						element.sendKeys(Keys.TAB);
+						
+				    }else {
 						int curOps = 0;
 						WebElement option = getElement(locatorType, locator + "/option[text()='" + data + "']");
 						int opsValue = Integer.parseInt(option.getAttribute("value"));
@@ -1005,12 +1023,12 @@ public class SeleniumDriver {
 				} else if (type.contentEquals("radio")) {
 					element.click();
 
-				} else if (type.contentEquals("switch")) {
-					if (type.contentEquals("default")) {
+				} else if (type.contains("switch")) {
+					if (type.contains("default")) {
 						driver.switchTo().defaultContent();
 						System.out.println("Frame switch to default.");
 					} else{
-					//WebElement frame = driver.findElement(By.xpath("//frame[@name='ContentFrame']"));
+					
 					frame = driver.findElement(getLocator(locatorType,locator));
 					driver.switchTo().frame(frame);
 					System.out.println("Frame switch to " + frame);
