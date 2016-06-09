@@ -663,6 +663,8 @@ public class SeleniumDriver {
 			takeScreenShot(caseName);
 			try {
 				runSteps(sr, "Post-Steps", rowNum);
+				//Additions...
+				if(excelReader.getCellData(rowNum+1, 0).isEmpty()) runSteps(sr, "Penultimate-Steps", rowNum); 
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("ERROR HAS BEEN DETECTED...");

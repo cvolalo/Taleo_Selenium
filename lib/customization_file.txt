@@ -422,8 +422,6 @@ save | button | xpath | //span[text()='Save']
 :Undo-Steps
 cancel | button | xpath | //span[text()='Cancel']
 
-
-
 [Manage Requisition File Setup]
 :Properties
 Sheetname | Requisition Files
