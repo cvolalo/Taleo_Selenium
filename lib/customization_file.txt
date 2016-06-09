@@ -396,8 +396,6 @@ Cancel | button | xpath | //span[text()='Cancel']/../../..
 Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
 end esac
 
-
-
 [Manage Candidate File Setup]
 :Properties
 Sheetname | Candidate Files
@@ -441,6 +439,25 @@ save | button | xpath | //span[text()='Save']
 :Undo-Steps
 cancel | button | xpath | //span[text()='Cancel']
 
+[Manage Welcome Center Content]
+:Properties
+Sheetname | Welcome Center Content
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Welcome Center Content | button | xpath | //span[text()='General Configuration']/..//span[text()='Welcome Center Content']
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']
+:Fields
+*Code | textbox | xpath | //label[text()='Code']/../input
+*Name | textbox | xpath | //label[text()='Name']/../input
+Source | button | xpath | //img[@alt='Source']
+*Content | textbox | xpath | //textarea[@id='eSourceField']
+:Post-Steps
+Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
+:Undo-Steps
+Cancel | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
 
 
 

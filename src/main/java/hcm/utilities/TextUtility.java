@@ -46,6 +46,14 @@ public class TextUtility {
 				} else if(foundType) {
 					collection.addElement(current);
 				}
+				//If next [ is found and no type yet...
+				if(current.startsWith("["))
+				{
+					if(!foundType){
+						collection.addElement("skip:");
+					break;
+					}
+				} 
 			} else 
 				//if(current.contains(sr)) foundSr = true;
 				if(current.contentEquals("["+sr+"]")) foundSr = true;

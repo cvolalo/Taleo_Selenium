@@ -534,10 +534,13 @@ public class SeleniumDriver {
 								// Case Handler...
 								if (!caseId.isEmpty() && !caseId.contentEquals("")) {
 									System.out.println("Case Scenario: "+ caseId);
+									
+									String caseHolder = ArgumentExecutor.getCaseStatement(fields, caseId); 
+
 									if (!step[1].contains("button"))
 										colNum += 1;
 									if (!waitImmunity) action(step[0], step[1], step[2],step[3], data);
-									while (!current.contentEquals("case: "+ caseId)) {
+									while (!current.contentEquals(caseHolder)) {
 										iteration += 1;
 										current = fields.elementAt(iteration);
 									}
@@ -665,6 +668,7 @@ public class SeleniumDriver {
 				runSteps(sr, "Post-Steps", rowNum);
 				//Additions...
 				if(excelReader.getCellData(rowNum+1, 0).isEmpty()) runSteps(sr, "Penultimate-Steps", rowNum); 
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("ERROR HAS BEEN DETECTED...");
@@ -782,6 +786,7 @@ public class SeleniumDriver {
 			if (current.isEmpty())
 				break;
 			if (current.contains("skip:")) {
+				System.out.println("Skipping "+steps+" ..."); 
 				break stepsloop;
 			}
 
