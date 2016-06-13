@@ -172,7 +172,6 @@ Header | nullable | xpath | //h1/span[text()='SmartOrg Administration']
 Cancel Create | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
 
 
-
 [Create User Accounts]
 :Properties
 Sheetname | User Accounts
@@ -309,6 +308,52 @@ Security Level | select | xpath | //span[text()='Security level']/../select
 Save | button | xpath | //span[text()='Save']
 :Post-Steps
 
+
+
+[Manage Fields Selection List]
+:Properties
+Sheetname | Manage Field Selection List
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Recruiting - Administration | button | xpath | //span[text()='Recruiting']/..//span[@title='Access the administration']
+Selection List | button | xpath | //span[@title='Access the selection list configuration']
+:Pre-Steps
+:Fields
+Selection Editor | button | xpath | //span[text()='Selection Editor'] | wait 3 -c case continue: case proceed
+case: proceed
+Frame | switch | xpath | //frame[@name='HeaderFrame'] | wait 3 -c :
+Large Selections | button | xpath | //span[contains(text(),'Large Selections')]/../.. | wait 3 -c : case continue
+Frame | switch | xpath | //frame[@name='HeaderFrame'] | wait 3 -c :
+Custom | button | xpath | //span[contains(text(), 'Custom')]/.. | wait 3 -c :
+Frame | switch | xpath | //frame[@name='ContentFrame'] | wait 5 -c :
+Find Code | button | xpath | //a[text()='$.sCode'] | wait 3 -c case continue : Create New Field
+case: Create New Field
+Frame | switch default | xpath | //span[contains(text(),'Code') and @class='l1header']
+Frame | switch | xpath | //frame[@name='HeaderFrame']
+Create New | button | xpath | //a/span[text()='New...'] | wait 5 -c case continue :
+resume esac
+resume esac
+case: continue
+setExcelCol: Language
+Language | select index | xpath | //select[@name='SELECTION_MENU']
+setExcelCol: Code
+Code | textbox | xpath | //span[text()='Code']/../input
+Name | textbox | xpath | //span[text()='Name']/../input
+setExcelCol: Associate Structure Type
+Associate Structure Type | select | xpath | //span[text()='Associated Structure Type']/../select[not(@disabled)] | wait 5 -c :
+setExcelCol: Activate effective dating
+Option 1 | checkbox | xpath | //span[text()='Activate effective dating']/../../td/span/input | wait 5 -c :
+setExcelCol: Require mapping for every element
+Option 2 | checkbox | xpath | //span[text()='Require mapping for every element']/../../td/input | wait 5 -c : 
+end esac
+:Post-Steps
+:Penultimate-Steps
+Done | button | xpath | //span[text()='Done']/..
+:Undo-Steps
+
+
 [Create User Defined Files]
 :Properties
 Sheetname | Create User Defined Files
@@ -394,31 +439,91 @@ save | button | xpath | //span[text()='Save']
 :Undo-Steps
 cancel | button | xpath | //span[text()='Cancel']
 
-
-
-[Manage Requisition File Setup]
+[Create Matching Candidate Filters]
 :Properties
-Sheetname | Requisition Files
+Sheetname | Matching Candidate Filters
 Action | Manual
 Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
-Requisition File Setup | button | xpath | //a/span[text()='Requisition File Setup']
-Edit | button | xpath | //span[text()='Edit']
+Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
 :Pre-Steps
+Candidate Filters | button | xpath | //span[text()='Process']/..//span[text()='Matching Candidate Filters']
 :Fields
-requisition template | select | xpath | //span[text()='Activated file for creating requisition templates']/../select
-add staffing type | button | xpath | (//span[text()='Add Staffing Type'])[4]
+Frame | switch | xpath | //frame[@name='ContentFrame']
+setExcelCol: Invite internal candidates
+Invite internal candidates | checkbox | xpath | //input[@name='checkboxInviteInternalCandidates']
+Invite external candidates | checkbox | xpath | //input[@name='checkboxInviteExternalCandidates']
+Location | select | xpath | //select[@name='selectLocation']
+Last Update | select | xpath | //select[@name='lastUpdate']
+Last Update Incomplete | select | xpath | //select[@name='lastUpdateIncomplete']
+Application Status | multiple select | xpath | //select[@name='selectApplicationStatus']
+Radio Option | radio | xpath | //span[text()='$.sOption']/../..//input
+Source Types | select | xpath | //select[@name='availableSourceTypes']
+Available Sources | select | xpath | //select[@name='availableSources']
+Default Frame | switch default | xpath | //select[@name='availableSources']
+Frame | switch | xpath | //frame[@name='HeaderFrame']
+//Save | button | xpath | //a[text()='Save']
 :Post-Steps
-save | button | xpath | //span[text()='Save']
+Cancel | button | xpath | //a[text()='Cancel']
 :Undo-Steps
-cancel | button | xpath | //span[text()='Cancel']
+Cancel | button | xpath | //a[text()='Cancel']
+[Create User Accounts]
+:Properties
+Sheetname | User Accounts
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='SmartOrg']/..//span[text()='Administration']
+User Accounts | button | xpath | //span[text()='User Accounts']/../../a
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']
+:Fields
+*First Name | textbox | xpath | //span[text()='First Name']/../input
+Middle Name | textbox | xpath | //span[text()='Middle Name']/../input
+*Last Name | textbox | xpath | //span[text()='Last Name']/../input
+Prefix | textbox | xpath | //span[text()='Prefix']/../input
+Suffix | textbox | xpath | //span[text()='Suffix']/../input
+Employee ID | textbox | xpath | //span[text()='Employee ID']/../input
+Title | textbox | xpath | //span[text()='Title']/../input
+City | textbox | xpath | //span[text()='City']/../input
+State/Province | textbox | xpath | //span[text()='State/Province']/../input
+Zip/Postal Code | textbox | xpath | //span[text()='Zip/Postal Code']/../input
+Country | textbox | xpath | //span[text()='Country']/../input
+*Email | textbox | xpath | //span[text()='Email Address']/../input
+Personal Email Address | textbox | xpath | //span[text()='Personal Email Address']/../input
+Corporate Email Address | textbox | xpath | //span[text()='Corporate Email Address']/../input
+Work Phone Number | textbox | xpath | //span[text()='Work Phone Number']/../input
+Ext. | textbox | xpath | //span[text()='Ext.']/../input
+Fax Number | textbox | xpath | //span[text()='Fax Number']/../input
+Cellular Phone Number | textbox | xpath | //span[text()='Cellular Phone Number']/../input
+Pager Number | textbox | xpath | //span[text()='Pager Number']/../input
+Home Phone Number | textbox | xpath | //span[text()='Home Phone Number']/../input
+Next | button | xpath | //span[text()='Next']
+Employee Status | select | xpath | //span[text()='Employee Status']/../select
+Next | button | xpath | //span[text()='Next']
+*User Name | textbox | xpath | //span[text()='User Name']/../input
+*Password | textbox | xpath | //span[text()='Password']/../input
+*Confirm Password | textbox | xpath | //span[text()='Confirm Password']/../input
+Next | button | xpath | //span[text()='Next']
+Next | button | xpath | //span[text()='Next']
+Next | button | xpath | //span[text()='Next']
+:Post-Steps
+Finish | button | xpath | //span[text()='Finish']
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+case: Default
+Cancel | button | xpath | //span[text()='Cancel']/../../..
+Header | h1 | xpath | //span[text()='User-defined Forms'][contains(@class,'header')]
+end esac
+
 
 
 [Create Requisition Matching Criteria]
 :Properties
-Sheetname | Matching Requisition Criteria
+Sheetname | Requisition Matching Criteria
 Action | Manual
 Recursive | False
 :Pre-Prep
@@ -429,14 +534,33 @@ Matching Requisition Criteria | button | xpath | //a/span[text()='Matching Requi
 :Fields
 frame | switch | xpath | //frame[3]
 setExcelRow: Structure
-jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2]
+jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2] | 'case $.sMatch of Job and Preferred Jobs'
+case: Yes
 type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select
-locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Locations and Preferred Locations
+locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2] | 'case $.sLocations and Preferred Locations'
+case: Yes
 type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select
-orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Organization and Preferred Organizations
+orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'
+case: Yes
 type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select
-placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Locations and Place of Residence
+placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
+case: Yes
 type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select
+resuem esac
+case: No
+resume esac
 setExcelRow: Skills
 setExcelCol: Required Only
 required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
@@ -447,24 +571,590 @@ required | checkbox | xpath | //span[contains(text(),'(Based on answers marked a
 required and asset | checkbox | xpath | //span[contains(text(),'answers marked as asset')]/../../td/input[2]
 setExcelRow: Basic Profile
 setExcelCol: Job Level
-joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2]
+joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2] | 'case $.sJob Level'
+case: Yes
 type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select
-jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Job Type
+jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
+case: Yes
 type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select
-schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Schedule
+schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
+case: Yes
 type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select
-shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Shift
+shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
+case: Yes
 type | select | xpath | //span[contains(text(),'Shift')]/../../td/select
-employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Employee Status
+employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
+case: Yes
 type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select
-studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Study Level
+studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
+case: Yes
 type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select
-willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Willing to Travel
+willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
+case: Yes
 type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select
-salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2]
+resume esac
+case: No
+resume esac
+setExcelCol: Salary
+salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
+case: Yes
 type | select | xpath | //span[contains(text(),'Salary')]/../../td/select
+resume esac
+case: No
+resume esac
+default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
 :Post-Steps
 save | button | xpath | //span[text()='Save']
 :Post-Steps
 :Undo-Steps
+
+
+[Create Candidate Matching Criteria]
+:Properties
+Sheetname | Candidate Matching Criteria
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Matching Candidate Criteria | button | xpath | //a/span[text()='Matching Candidate Criteria']
+:Pre-Steps
+:Fields
+frame | switch | xpath | //frame[3]
+setExcelRow: Structure
+orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'
+case: Yes
+type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Locations and Place of Residence
+placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
+case: Yes
+type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select
+resuem esac
+case: No
+resume esac
+setExcelRow: Skills
+setExcelCol: Required Only
+required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
+required and asset | checkbox | xpath | //span[contains(text(),'skills marked as asset')]/../../td/input[2]
+setExcelRow: Questions
+setExcelCol: Required Only
+required | checkbox | xpath | //span[contains(text(),'(Based on answers marked as required)')]/../../td/input[2]
+required and asset | checkbox | xpath | //span[contains(text(),'answers marked as asset')]/../../td/input[2]
+setExcelRow: Basic Profile
+setExcelCol: Job Level
+joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2] | 'case $.sJob Level'
+case: Yes
+type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Job Type
+jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
+case: Yes
+type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Schedule
+schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
+case: Yes
+type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Shift
+shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
+case: Yes
+type | select | xpath | //span[contains(text(),'Shift')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Employee Status
+employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
+case: Yes
+type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Study Level
+studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
+case: Yes
+type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Willing to Travel
+willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
+case: Yes
+type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select
+resume esac
+case: No
+resume esac
+setExcelCol: Salary
+salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
+case: Yes
+type | select | xpath | //span[contains(text(),'Salary')]/../../td/select
+resume esac
+case: No
+resume esac
+default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
+frame | switch | xpath | //frame[2]
+:Post-Steps
+save | button | xpath | //span[text()='Save']
+:Post-Steps
+:Undo-Steps
+
+
+[Create Paragraphs]
+:Properties
+Sheetname | Paragraphs
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+:Pre-Steps
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Paragraphs | button | xpath | //a/span[text()='Paragraphs']
+Create | button | xpath | //span[text()='Create']
+:Fields
+Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+frame | switch | xpath | //label[contains(text(),'Text')]/../iframe
+Source | button | xpath | //td[text()='Source']
+setExcelCol: *Text
+Text | textbox | xpath | //textarea[@id='eSourceField']
+default | switch default | xpath | //td[text()='Source']
+:Post-Steps
+Save | button | xpath | //span[text()='Save']
+Activate | button | xpath | //span[contains(text(),'Paragraph -')]/../span/a/span/span/span/span[text()='Activate']
+Configuration | button | xpath | //span[text()='Configuration']
+:Undo-Steps
+
+[Create Message Templates]
+:Properties
+Sheetname | Message Templates
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+:Pre-Steps
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+message_templates | button | xpath | //a/span[text()='Message Templates']
+Create | button | xpath | //span[text()='Create']
+:Fields
+Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/../textarea
+message format | select | xpath | //span[text()='Message Format']/../select
+sensitivity | select | xpath | //span[text()='Sensitivity']/../select
+confidential | checkbox | xpath | //label[contains(text(),'is confidential')]/../input
+to | textbox | xpath | //label[contains(text(),'To')]/../input
+reply to | textbox | xpath | //label[contains(text(),'Reply To')]/../input
+cc | textbox | xpath | //label[contains(text(),'Cc')]/../input
+Bcc | textbox | xpath | //label[contains(text(),'Bcc')]/../input
+subject | textbox | xpath | //label[contains(text(),'Subject')]/../input
+Save | button | xpath | //span[text()='Save']
+context_edit | button | xpath | //span[text()='Context']/../span/a/span[text()='Edit']
+recipient | select | xpath | //span[text()='Recipient']/../select
+delivery_type | radio | xpath | //span[text()='$.sDelivery Type']/../input | 'case $.sDelivery Type'
+case: Automatic
+setExcelCol: Triggering Event
+triggering_event | select | xpath | //span[text()='Triggering Event']/../select
+resume esac
+case: Manual
+setExcelCol: Job Field
+search_job_field | button | xpath | //span[text()='Job Field']/../span/a
+search_box | textbox | xpath | //span[text()='Refine by']/../input
+refresh | button | xpath | //span[text()='Refresh']
+select | button | xpath | //span[text()='$.sJob Field']/../../td/input
+select_button | button | xpath | //span[text()='Select']
+search_organization | button | xpath | //span[text()='Organization']/../span/a
+search_box | textbox | xpath | //span[text()='Refine by']/../input
+refresh | button | xpath | //span[text()='Refresh']
+select | button | xpath | //span[text()='$.sOrganization']/../../td/input
+select_button | button | xpath | //span[text()='Select']
+search_location | button | xpath | //span[text()='Location']/../span/a
+search_box | textbox | xpath | //span[text()='Refine by']/../input
+refresh | button | xpath | //span[text()='Refresh']
+select | button | xpath | //span[text()='$.sLocation']/../../td/input
+select_button | button | xpath | //span[text()='Select']
+resume esac
+setExcelCol: Paragraph Name
+save | button | xpath | //span[text()='Save']
+add paragraph | button | xpath | //span[text()='Paragraphs']/../span/a/span[text()='Add']
+search_box | textbox | xpath | //span[text()='Refine by']/../input
+refresh | button | xpath | //span[text()='Refresh']
+select | button | xpath | //span[text()='$.sParagraph Name']/../../td/input
+select_button | button | xpath | //span[text()='Select']
+:Post-Steps
+Activate | button | xpath | //span[contains(text(),'Template -')]/../span/a/span/span/span/span[text()='Activate']
+Configuration | button | xpath | //span[text()='Configuration']
+:Undo-Steps
+
+[Manage Requisition Types]
+:Properties
+Sheetname | Requisition Types
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+requisition_types | button | xpath | //a/span[text()='Requisition Types']
+:Pre-Steps
+:Fields
+frame_2 | switch | xpath | //frame[3]
+select | button | xpath | //select[@name='availableSelect']/
+add | button | xpath | //span[text()='Add']
+:Post-Steps
+:Undo-Steps
+
+
+[Manage Statements]
+:Properties
+Sheetname | Manage Statements
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+:Pre-Steps
+Statements | button | xpath | //span[contains(@title,'Access the statement list')]
+Create | button | xpath | //span[text()='Create']
+Save1 | button | xpath | //span[text()='Save']
+:Fields
+Code | textbox | xpath | //input[contains(@name,'inputTextCode')]/../input
+Name | textbox | xpath | //input[contains(@name,'inputTextName')]/../input
+Save2 | button | xpath | //span[text()='Save']
+Error | button | xpath | //span[text()='The action cannot be completed.'] | missing,throws Error
+:Post-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']
+case: Error
+Cancel | button | xpath | //span[text()='Cancel']
+end esac
+
+[Manage Themes]
+:Properties
+Sheetname | Manage Themes
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+:Pre-Steps
+Themes | button | xpath | //span[contains(@title,'Access the list of themes')]
+Create | button | xpath | //span[text()='Create']
+:Fields
+Code | textbox | xpath | //input[contains(@id,'inputText_CareerPortalTheme_Code')]/../input
+Name | textbox | xpath | //input[contains(@id,'inputText_CareerPortalTheme_Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/..//textarea
+Save | button | xpath | //span[text()='Save']
+Error | button | xpath | //span[text()='The action cannot be completed.'] | missing,throws Error
+:Post-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']
+case: Error
+Cancel | button | xpath | //span[text()='Cancel']
+end esac
+
+[Manage Career Portal Brands]
+:Properties
+Sheetname | Manage Career Portal Brands
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+:Pre-Steps
+Brands | button | xpath | //span[contains(@title,'Access the list of career portal brands')]
+Create | button | xpath | //span[text()='Create']
+:Fields
+Code | textbox | xpath | //input[contains(@id,'inputText_CareerPortalBrand_Code')]/../input
+Name | textbox | xpath | //input[contains(@id,'inputText_CareerPortalBrand_Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/..//textarea
+setExcelCol: Type
+Type | select | xpath | //label[contains(@id,'outputLabel_Extension_field')]/../select 
+Save | button | xpath | //span[text()='Save']
+Error | button | xpath | //span[text()='The action cannot be completed.'] | missing,throws Error
+:Post-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']
+case: Error
+Cancel | button | xpath | //span[text()='Cancel']
+end esac
+
+[Manage Welcome Center Content]
+:Properties
+Sheetname | Welcome Center Content
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+:Pre-Steps
+Welcome Center Content | button | xpath | //span[text()='General Configuration']/..//span[text()='Welcome Center Content']
+:Fields
+Header | nullable | xpath | //h1/span[text()='Welcome Center Content Pages']
+Refine By | select | xpath | //span[text()='Refine by']/../select | encode: Keyword
+setExcelCol: Search Name
+Search | textbox | xpath | //label[contains(text(),'contains')]/../input
+Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
+Search Result | button | xpath | //td/span[text()='$.s*Name']/../..//td/a/span[@title='View this welcome center content page'] | wait 3 -c case Edit:case Create
+case: Create
+Create | button | xpath | //span[text()='Create']
+resume esac
+case: Edit
+Profile | nullable | xpath | //span[contains(text(),'$.s*Name') and contains(text(),'Welcome Center Content Page - ')]
+Edit | button | xpath | //span[text()='Edit']
+resume esac
+setExcelCol: *Code
+*Code | textbox | xpath | //label[text()='Code']/../input
+*Name | textbox | xpath | //label[text()='Name']/../input
+Frame | switch | xpath | //iframe[@title='Editor']
+Source | button | xpath | //img[@alt='Source']
+*Content | textbox | xpath | //textarea[@id='eSourceField']
+Frame | switch default | xpath | //img[@alt='Source']
+Save | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Save']
+Status | button | xpath | //a[contains(@title,'$.sStatus') and contains(@title,'this content page')]//span[text()='$.sStatus'] | wait 5 -c :
+:Post-Steps
+Configuration | button | xpath | //a[text()='Configuration']
+:Undo-Steps
+Cancel | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+
+[Manage Application Flows]
+:Properties
+Sheetname | Application Flows
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Career Section | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+:Pre-Steps
+Application Flows | button | xpath | //span[text()='Application Flows']/..//span[@title='Access the list of application flows']
+:Fields
+Header | nullable | xpath | //h1/span[text()='Application Flows']
+Refine By | select | xpath | //span[text()='Refine by']/../select | encode: Name
+setExcelCol: Search Name
+Search | textbox | xpath | //label[contains(text(),'contains')]/../input
+Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
+Duplicate Application | button | xpath | //td/a/span[text()='$.sSearch Name']/../../..//span[text()='Duplicate'] | wait 5 -c case Edit:case Create
+case: Create
+Create | button | xpath | //span[text()='Create']
+setExcelCol: Flow Types
+Flow Types | select | xpath | //select
+Create | button | xpath | //span[text()='Create']
+setExcelCol: *Code
+resume esac
+case: Edit
+Application Flow | nullable | xpath | //span[@class='page-header-action']/..//span[contains(text(),'$.s*Name')]
+setExcelCol: *Code
+resume esac
+*Code | textbox | xpath | //span[text()='Code']/../input
+*Name | textbox | xpath | //span[text()='Name']/../input
+*Description | textbox | xpath | //span[text()='Description']/../input
+Progress Bar | select | xpath | //label[contains(text(),'Progress Bar Enabled')]/../select
+Autofill After Initial Submission | select | xpath | //label[contains(text(),'Autofill After Initial Submission Enabled')]/../select
+Save | button | xpath | //span[@class='button-group-left-top']//span[text()='Save']
+Status | button | xpath | //a[contains(@title,'$.sStatus') and contains(@title,'this application flow')]//span[text()='$.sStatus'] | wait 5 -c :
+:Post-Steps
+Career Section Administration | button | xpath | //a[text()='Career Section Administration']
+:Undo-Steps
+Cancel | button | xpath | //span[@class='button-group-left-top']//span[text()='Cancel']
+
+[Manage Career Section URL]
+:Properties
+Sheetname | Manage Career Section URL
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Career Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+Header | button | xpath | //span[text()='Career Section Administration']
+Career Section URLs | button | xpath | //span[text()='General Configuration']/..//span[text()='Career Section URLs']
+:Pre-Steps
+Header | button | xpath | //h1//span[text()='Career section URLs']
+Create | button | xpath | //span[text()='Create']
+Header | button | xpath | //span[text()='New Career Section URL']
+:Fields
+*Code | textbox | xpath | //label[contains(text(),'Code')]/..//input
+Default Language | select | xpath | //label[contains(text(),'Default Language')]/..//select | unstale
+Career Section | select | xpath | //label[contains(text(),'Career Section')]/..//select | unstale
+Default Page | select | xpath | //label[contains(text(),'Default Page')]/..//select | unstale
+Save | button | xpath | //a[contains(@id,'Save_Top')] | wait 5
+Error Check | button | xpath | //span[text()='The action cannot be completed.'] | missing,throws Error
+:Post-Steps
+Code | button | xpath | //span[contains(text(),'$String')][contains(@id,'Header')]
+Career section URLs | button | xpath | //a[text()='Career section URLs']
+:Undo-Steps
+Cancel | button | xpath | //a[contains(@id,'Cancel_Top')] | wait 5
+case: Error
+Cancel | button | xpath | //a[contains(@id,'Cancel_Top')] | wait 5
+end esac
+
+
+[Manage Personalized Job List]
+:Properties
+Sheetname | Manage Personalized Job List
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+CareerAdmin | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+:Pre-Steps
+PersonalizedJL | button | xpath | //span[text()='Personalized Job List']
+PersonalizedEdit | button | xpath | //span[text()='Edit']
+:Fields
+HeaderMC | button | xpath | //span[text()='Matching Criteria - Personalized Job Lists']
+Job | h1 | xpath | //span[contains(text(),'Preferred Jobs')]
+Job | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../..//select
+Location | h1 | xpath | //span[contains(text(),'Preferred Locations')]
+Location | select | xpath | //span[contains(text(),'Preferred Locations')]/../../..//select
+Organization | h1 | xpath | //span[contains(text(),'Preferred Organizations')]
+Organization | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../..//select
+PlaceofResidence | h1 | xpath | //span[contains(text(),'Place of Residence')]
+PlaceofResidence | select | xpath | //span[contains(text(),'Place of Residence')]/../../..//select
+:Post-Steps
+Save | button | xpath | //span[contains(@class,'bottom')]//span[text()='Save']
+Back2Career | button | xpath | //a[text()='Career Section Administration']
+:Undo-Steps
+Cancel Edit | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Back2Career | button | xpath | //a[text()='Career Section Administration']
+
+
+[Manage Documents]
+:Properties
+Sheetname | Manage Documents
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+:Pre-Steps
+Documents | button | xpath | //span[text()='Documents']/..//a//span[text()='Documents']
+:Fields
+Code | button | xpath | //span[text()='$String']/../../..//span[text()='$.sName']
+Activate | button | xpath | //span[text()='Activate'] | wait 5 -c :throws Activated
+:Post-Steps
+CSA | button | xpath | //a[contains(text(),'Career Section Administration')]
+:Undo-Steps
+Cancel | button | xpath | //a[contains(text(),'Career Section Administration')]
+case: Activated
+Cancel | button | xpath | //a[contains(text(),'Career Section Administration')]
+end esac
+
+[Create Onboarding User Defined Forms]
+:Properties
+Sheetname | Onboarding User Defined Forms
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Onboarding (Transitions) Administration | button | xpath | //span[text()='Onboarding (Transitions)']/../a/span[@title='Access the administration']
+User-defined Forms | button | xpath | //a/span[text()='User-defined Forms']
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']/..
+:Fields
+Code | textbox | xpath | //label[contains(text(), 'Code')]/../input
+Name | textbox | xpath | //input[contains(@id, 'formName')]
+Page Name | textbox | xpath | //label[contains(text(), 'Page Name')]/../input
+array | 4
+Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]
+Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]/option[@value='$.sField Type']
+Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]
+setExcelCol: Page Content
+Drag | drag | xpath | //ul/li[text()='$.sPage Content']
+Drop | drop | xpath | //div[@class='cf-root']/div[1]
+stop
+//div[contains(@id, 'id-2')]/../div/span
+:Post-Steps
+Save | button | xpath | //span[text()='Save']
+:Penultimate-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']
+
+[Manage User Defined Selections]
+:Properties
+Sheetname | Manage User Defined Selections
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //a[contains(@id,'ribbonItemCommandLink')]//span[text()='Configuration'] | wait 3
+Administration | button | xpath | //span[text()='Onboarding (Transitions)']/../a/span[text()='Administration'] | wait 3
+User Defined Selections | button | xpath | //span[text()='User-defined Selections'] | wait 5
+Create | button | xpath | //span[text()='Create']
+:Pre-Steps
+skip:
+:Fields
+Code | textbox | xpath | //input[contains(@name,'selectionCode')]
+Name | textbox | xpath | //input[contains(@name,'selectionName')]
+Save | button | xpath | //a[contains(@id,'BOTTOM_SAVE')]//span[text()='Save'] | wait 3
+Create | button | xpath | //span[text()='Create'] | wait 3
+2nd code | textbox | xpath | //input[contains(@id,'elementCode')] | wait 3
+2nd name | textbox | xpath | //input[contains(@id,'elementName')]
+Save | button | xpath | //td[2]/span[@id='editTemplate-editForm-contentPane']/span[1]//span[text()='Save']
+Activate Element | button | xpath | //td/span[text()='$.sName*']/../../td/span/a/span/span/span/span[text()='Activate'] | wait 3
+:Post-Steps
+Activate Final Step | button | xpath | //span[@class='action-btn4'] | wait 12 -c
+:Undo-Steps
+Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]/span/span/span/span
+case: *Name
+cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]/span/span/span/span
+end esac
+case: *Code
+cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]/span/span/span/span
+end esac
+
+
+[Manage Electronic Signature]
+:Properties
+Sheetname | Manage Electronic Signature
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Onboarding (Transitions) Administration | button | xpath | //span[text()='Onboarding (Transitions)']/../a/span[@title='Access the administration']
+defined Electronic Signatures | button | xpath | //span[text()='User-defined Electronic Signatures']
+:Pre-Steps
+:Fields
+Refine by Code | select | xpath | //select[contains(@id, 'selectOneMenuFilters1')] | encode: Code
+setExcelCol: Code
+Code textbox | textbox | xpath | //input[contains(@id, 'inputTextString1')]
+Refresh | button | xpath | //span[text()='Refresh']
+Search-Enter Code | button | xpath | //td/label/a/span[text()='$.sCode'] | wait 3 -c : throws record not found
+Editor Header | nullable | xpath | //h1/span[contains(text(), 'Electronic signature Editor')]
+Name | textbox | xpath | //label[contains(@id, 'name')]/../input
+Signature Type | select | xpath | //label[contains(@id, 'signatureTypeLabel')]/../select
+:Post-Steps
+Save | button | xpath | //span[text()='Save']/..
+:Penultimate-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/..
+case: record not found
+end esac

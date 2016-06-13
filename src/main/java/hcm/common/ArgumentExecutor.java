@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import hcm.seldriver.SeleniumDriver;
 import hcm.utilities.ExcelReader;
@@ -32,6 +33,22 @@ public class ArgumentExecutor {
 		}
 		return "";
 	}
+	public static String getCaseStatement(Vector<String> fields, String caseId) throws Exception{
+		
+		for(String caseFinder: fields){
+			if(caseFinder.startsWith("case: ")){
+				String newCase = caseFinder.replace("case: ", "");
+				String[] caseSet = newCase.split(",");
+				for(String sCase : caseSet){
+					if(sCase.contentEquals(caseId)){
+						return caseFinder;
+					}
+				}
+			}
+		}
+		
+		return "";
+	} 
 	public static String executeArithmetic(String statement, int intArgument) throws Exception{
 		String result = "";
 		int i = 0;

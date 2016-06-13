@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import org.openqa.selenium.NoSuchElementException;
+
 public class TextUtility {
 	private BufferedReader br = null;
 	private Vector<String> lines = null;
@@ -45,6 +47,14 @@ public class TextUtility {
 				}
 				} else if(foundType) {
 					collection.addElement(current);
+				}
+				//If next [ is found and no type yet...
+				if(current.startsWith("[")) 
+				{
+					if(!foundType){
+						collection.addElement("skip:");
+					break;
+					}
 				}
 			} else 
 				//if(current.contains(sr)) foundSr = true;

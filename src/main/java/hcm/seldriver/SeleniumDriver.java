@@ -14,6 +14,7 @@ import java.util.Vector;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
 import org.openqa.selenium.remote.Augmenter;
@@ -48,6 +49,7 @@ public class SeleniumDriver {
 	private ExcelReader excelReader = null;
 	public static WebDriver driver;
 	private static WebDriver augmentedDriver;
+	private static Actions performer; 
 	WebElement frame;
 	private String caseName;
 	private String workspace_path;
@@ -76,6 +78,8 @@ public class SeleniumDriver {
 			//driver.manage().window().setSize(new Dimension(1020, 737));
 			System.out.println("Browser size: "	+ driver.manage().window().getSize());
 			augmentedDriver = new Augmenter().augment(driver);
+			
+			performer = new Actions(driver); 
 
 			// Read text file
 			textReader = new TextUtility();
@@ -513,7 +517,7 @@ public class SeleniumDriver {
 				} else {
 
 					if ((data.isEmpty() || data.contains("blank"))&& !step[1].contains("button") 
-							&& !step[1].contains("skippable") && !current.contains("trigger:")) {
+							&& !step[1].contains("skippable") && !current.contains("trigger:") && !current.contains("switch") && !current.contains("drop")) {
 						System.out.print(step[0] + " is empty.\n");
 					} else {
 						current = ArgumentHandler.executeArgumentConverter(current, excelReader, rowNum, rowGroup, colNum);
@@ -534,10 +538,13 @@ public class SeleniumDriver {
 								// Case Handler...
 								if (!caseId.isEmpty() && !caseId.contentEquals("")) {
 									System.out.println("Case Scenario: "+ caseId);
+									
+									String caseHolder = ArgumentExecutor.getCaseStatement(fields, caseId); 
+
 									if (!step[1].contains("button"))
 										colNum += 1;
 									if (!waitImmunity) action(step[0], step[1], step[2],step[3], data);
-									while (!current.contentEquals("case: "+ caseId)) {
+									while (!current.contentEquals(caseHolder)) {
 										iteration += 1;
 										current = fields.elementAt(iteration);
 									}
@@ -652,7 +659,7 @@ public class SeleniumDriver {
 
 				}
 
-				if (step[1].contains("button") || step[1].contains("nullable"))
+				if (step[1].contains("button") || step[1].contains("nullable") || step[1].contains("switch") )
 					colNum--;
 
 				colNum++;
@@ -663,6 +670,9 @@ public class SeleniumDriver {
 			takeScreenShot(caseName);
 			try {
 				runSteps(sr, "Post-Steps", rowNum);
+				//Additions...
+				if(excelReader.getCellData(rowNum+1, 0).isEmpty()) runSteps(sr, "Penultimate-Steps", rowNum); 
+
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("ERROR HAS BEEN DETECTED...");
@@ -769,6 +779,7 @@ public class SeleniumDriver {
 		Vector<String> Steps = textReader.getCollection(name, steps);
 		Enumeration<String> elements = Steps.elements();
 		int STEP_TIMEOUT = MAX_TIMEOUT;
+		boolean hasElements = false;
 		System.out.println("Executing " + steps + ".");
 
 		stepsloop: while (elements.hasMoreElements()) {
@@ -776,10 +787,14 @@ public class SeleniumDriver {
 			String current = elements.nextElement();
 			String[] step = current.split(" \\| ");
 			int colNum = 0;
-
-			if (current.isEmpty())
+			hasElements = true;
+			
+			if (current.isEmpty()){
+				System.out.println("Skipping empty "+steps+" ...");
 				break;
+			}
 			if (current.contains("skip:")) {
+				System.out.println("Skipping "+steps+" ..."); 
 				break stepsloop;
 			}
 
@@ -864,6 +879,9 @@ public class SeleniumDriver {
 
 			// Take screenshot
 			takeScreenShot(caseName);
+		}
+		if (!hasElements){
+			System.out.println(steps+" doesn't contains any steps.");
 		}
 	}
 
@@ -975,10 +993,31 @@ public class SeleniumDriver {
 
 				} else if (type.contains("select")) {
 					// wait.until(ExpectedConditions.elementToBeClickable(getLocator(locatorType,locator)));
+					Select select = new Select(element);
+					
 					if (type.contentEquals("select")) {
-						new Select(element).selectByVisibleText(data);
+						select.selectByVisibleText(data);
+						System.out.println(data + " is selected.");
 						element.sendKeys(Keys.ENTER);
-					} else {
+					}else if (type.contains("multiple")){
+						select.deselectAll();
+						String multipleSel[] = data.split(",");
+						for (String valueToBeSelected : multipleSel) {
+							select.selectByVisibleText(valueToBeSelected);
+							System.out.println(valueToBeSelected + " is selected.");
+							element.sendKeys(Keys.CONTROL);
+						   }
+					}else if(type.contains("index")){
+						int index = 0;
+						String value[] = data.split("-");
+						index = Integer.parseInt(value[0]);
+						if(index != 1)							
+						{
+							WebElement option = getElement(locatorType, locator + "/option[" + index + "]");
+							option.click();
+						}
+						element.sendKeys(Keys.TAB); 
+					}else {
 						int curOps = 0;
 						WebElement option = getElement(locatorType, locator + "/option[text()='" + data + "']");
 						int opsValue = Integer.parseInt(option.getAttribute("value"));
@@ -1005,12 +1044,12 @@ public class SeleniumDriver {
 				} else if (type.contentEquals("radio")) {
 					element.click();
 
-				} else if (type.contentEquals("switch")) {
-					if (type.contentEquals("default")) {
+				} else if (type.contains("switch")) {
+					if (type.contains("default")) {
 						driver.switchTo().defaultContent();
 						System.out.println("Frame switch to default.");
 					} else{
-					//WebElement frame = driver.findElement(By.xpath("//frame[@name='ContentFrame']"));
+					
 					frame = driver.findElement(getLocator(locatorType,locator));
 					driver.switchTo().frame(frame);
 					System.out.println("Frame switch to " + frame);
@@ -1019,7 +1058,7 @@ public class SeleniumDriver {
 				} else if (type.contentEquals("checkbox")) {
 					// wait.until(ExpectedConditions.presenceOfElementLocated(getLocator(locatorType,locator)));
 					boolean isChecked = TaskUtilities.jsGetCheckboxTickStatus(locatorType, locator);
-					// if(element.isSelected()) {
+				
 					if ((data.toUpperCase().contentEquals("FALSE") || data.toUpperCase().contains("NO")) && isChecked) {
 						element.click();
 						System.out.println(name + " " + type + " "+ " is clicked using " + locatorType + " = "+ locator);
@@ -1034,6 +1073,7 @@ public class SeleniumDriver {
 							System.out.println(name + " = " + data);
 						}
 					}
+					
 				} else if (type.contentEquals("combobox")) {
 					List<String> actions = ArgumentExecutor.parseCombobox(name,locator, data);
 					for (String act : actions) {
@@ -1043,8 +1083,14 @@ public class SeleniumDriver {
 					}
 				} else if (type.contentEquals("nullable")) {
 					// Skips for now...
+				} else if(type.contentEquals("drag")){
+					performer.clickAndHold(element);
+					System.out.println(name + " " + type + " "+ " is now dragged using " + locatorType + " = "+ locator);
+					System.out.println(name + " = " + data);
+				} else if (type.contentEquals("drop")){
+					performer.moveToElement(element).release().perform();
+					System.out.println("Dragged element is now dropped to " + name + " using " + locatorType + " = "+ locator); 
 				}
-
 				if (type.contains("enter")) {
 					element.sendKeys(Keys.ENTER);
 				}

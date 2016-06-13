@@ -53,7 +53,8 @@ public class ArgumentHandler {
 		if(step[4].contains("encode")){
 			String dataRead = ArgumentExecutor.getArgumentStatement(step[4], "encode");
 			String[] read = dataRead.split(":");
-			data = read[1].trim();
+			if(!read[1].isEmpty())data = read[1].trim();
+			else data = ""; 
 		}
 		
 		if(step[4].contains("locate")){
