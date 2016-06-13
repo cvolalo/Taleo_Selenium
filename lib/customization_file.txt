@@ -901,7 +901,6 @@ Action | Manual
 Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Career Section | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
 Career Section Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
 :Pre-Steps
 Application Flows | button | xpath | //span[text()='Application Flows']/..//span[@title='Access the list of application flows']
