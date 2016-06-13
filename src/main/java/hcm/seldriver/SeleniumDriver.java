@@ -511,9 +511,6 @@ public class SeleniumDriver {
 					System.out.println("Waiting for " + step[1]+ " to dissappear...");
 					wait.until(ExpectedConditions.invisibilityOfElementLocated(getLocator(step[2],step[3])));
 					colNum--;
-				} else if (step[0].toUpperCase().contains("DYNAMIC")) {
-
-					colNum--;
 				} else {
 
 					if ((data.isEmpty() || data.contains("blank"))&& !step[1].contains("button") 
@@ -659,7 +656,7 @@ public class SeleniumDriver {
 
 				}
 
-				if (step[1].contains("button") || step[1].contains("nullable") || step[1].contains("switch") )
+				if (step[1].contains("button") || step[1].contains("nullable") || step[1].contains("switch") || step[1].contains("drop"))
 					colNum--;
 
 				colNum++;
@@ -1008,15 +1005,11 @@ public class SeleniumDriver {
 							element.sendKeys(Keys.CONTROL);
 						   }
 					}else if(type.contains("index")){
-						int index = 0;
 						String value[] = data.split("-");
-						index = Integer.parseInt(value[0]);
-						if(index != 1)							
-						{
-							WebElement option = getElement(locatorType, locator + "/option[" + index + "]");
-							option.click();
-						}
-						element.sendKeys(Keys.TAB); 
+						int index = Integer.parseInt(value[0]);
+						if(value[1].equals(select.getFirstSelectedOption().getText()));
+						else select.selectByIndex(index);
+						element.sendKeys(Keys.TAB);
 					}else {
 						int curOps = 0;
 						WebElement option = getElement(locatorType, locator + "/option[text()='" + data + "']");
@@ -1088,7 +1081,11 @@ public class SeleniumDriver {
 					System.out.println(name + " " + type + " "+ " is now dragged using " + locatorType + " = "+ locator);
 					System.out.println(name + " = " + data);
 				} else if (type.contentEquals("drop")){
-					performer.moveToElement(element).release().perform();
+					try{
+						performer.moveToElement(element).release().perform();
+					}catch(WebDriverException e){
+						performer.perform();
+					}
 					System.out.println("Dragged element is now dropped to " + name + " using " + locatorType + " = "+ locator); 
 				}
 				if (type.contains("enter")) {
