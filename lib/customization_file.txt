@@ -307,7 +307,7 @@ Field Availability - History | checkbox | xpath | //label[text()=' History']/inp
 Content Required | select | xpath | //span[text()='Content Required']/../select
 Security Level | select | xpath | //span[text()='Security level']/../select
 Save | button | xpath | //span[text()='Save']
-
+:Post-Steps
 
 [Create User Defined Files]
 :Properties
@@ -416,5 +416,55 @@ save | button | xpath | //span[text()='Save']
 cancel | button | xpath | //span[text()='Cancel']
 
 
-
-
+[Create Requisition Matching Criteria]
+:Properties
+Sheetname | Matching Requisition Criteria
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Matching Requisition Criteria | button | xpath | //a/span[text()='Matching Requisition Criteria']
+:Pre-Steps
+:Fields
+frame | switch | xpath | //frame[3]
+setExcelRow: Structure
+jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select
+locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select
+orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select
+placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select
+setExcelRow: Skills
+setExcelCol: Required Only
+required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
+required and asset | checkbox | xpath | //span[contains(text(),'skills marked as asset')]/../../td/input[2]
+setExcelRow: Questions
+setExcelCol: Required Only
+required | checkbox | xpath | //span[contains(text(),'(Based on answers marked as required)')]/../../td/input[2]
+required and asset | checkbox | xpath | //span[contains(text(),'answers marked as asset')]/../../td/input[2]
+setExcelRow: Basic Profile
+setExcelCol: Job Level
+joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select
+jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select
+schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select
+shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Shift')]/../../td/select
+employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select
+studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select
+willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select
+salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Salary')]/../../td/select
+frame | switch | xpath | //frame[2]
+:Post-Steps
+save | button | xpath | //span[text()='Save']
+:Post-Steps
+:Undo-Steps
