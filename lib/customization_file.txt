@@ -306,7 +306,7 @@ Security Level | select | xpath | //span[text()='Security level']/../select
 Save | button | xpath | //span[text()='Save']
 :Post-Steps
 
-Manage Fields Selection List]
+[Manage Fields Selection List]
 :Properties
 Sheetname | Manage Field Selection List
 Action | Manual
@@ -1090,6 +1090,7 @@ Save | button | xpath | //span[text()='Save']
 :Penultimate-Steps
 :Undo-Steps
 Cancel | button | xpath | //span[text()='Cancel']
+
 [Manage Electronic Signature]
 :Properties
 Sheetname | Manage Electronic Signature
@@ -1171,3 +1172,67 @@ Cancel | button | xpath | //a[contains(text(),'Career Section Administration')]
 case: Activated
 Cancel | button | xpath | //a[contains(text(),'Career Section Administration')]
 end esac
+
+[Manage Task Definitions]
+:Properties
+Sheetname | Manage Task Definitions
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Onboarding (Transitions) Administration | button | xpath | //span[text()='Onboarding (Transitions)']/../a/span[@title='Access the administration']
+Task Definitions | button | xpath | //span[text()='Task Definitions']
+:Pre-Steps
+:Fields
+Refine by Keyword | select | xpath | //select[contains(@id, 'selectOneMenuFilters1')] | encode: Keyword
+setExcelCol: Search Keyword
+Search Keyword | textbox | xpath | //input[contains(@id, 'inputTextString1')]
+Refresh | button | xpath | //a[@title='Refresh the list according to selection']
+Search-Enter Name | button | xpath | //td/a/span[text()='$.sName'] | wait 3 -c : case Create New
+Click edit | button | xpath | //span[@title='Edit the task definition general information']
+case: Create New
+Create New | button | xpath | //span[text()='Create']
+end esac
+setExcelCol: Code
+Code | textbox | xpath | //label[contains(text(), 'Code')]/../input
+Name | textbox | xpath | //label[contains(text(), 'Name')]/../input
+Description | textbox | xpath | //label[contains(text(), 'Description')]/../textarea
+Guidelines | textbox | xpath | //label[contains(text(), 'Guidelines')]/../textarea
+setExcelCol: Type
+Type | select | xpath | //select[contains(@id, 'content-type')]
+setExcelCol: Priority
+Priority | select | xpath | //select[contains(@id, 'priority')]
+Action | select | xpath | //select[contains(@id, 'processorTypes')] | 'case $.sAction', unstale
+case: Execute the task manually, Request External Service
+resume esac
+case: Send correspondence, Fill user-defined form, Open PDF, System Task, Display Content Page, Send E-Offer response
+case: Display Content Page, Send E-Offer response
+Search | button | xpath | //span[text()='Select']
+resume esac
+case: Send correspondence, Fill user-defined form, Open PDF, System Task
+Search | button | xpath | //span[text()='Search']
+resume esac
+Select Template Selector | select | xpath | //select[contains(@id, 'selectOneMenuFilters1')] | encode: Keyword
+setExcelCol: Related Source/Content Page/Display Page/System ID
+Input Related Source | textbox | xpath | //input[contains(@id, 'inputTextString1')]
+Refresh | button | xpath | //span[text()='Refresh']
+Result | button | xpath | //span[text()='$.sRelated Source/Content Page/Display Page/System ID']/../../td/input | wait 5 -c : case related source does not exist
+Select result | button | xpath | //a[@title='Select the specified item' and contains(@id, 'bottomSelect')]
+resume esac
+case: Mark as ready to be exported
+setExcelCol: Related Source/Content Page/Display Page/System ID
+External System ID | textbox | xpath | //label[contains(text(), 'External system ID')]/../input
+resume esac
+Save | button | xpath | //span[text()='Save']/..
+setExcelCol: Status
+Action Status | button | xpath | //a[contains(@id, 'ActivateAction')]//span[text()='$.sStatus'] | wait 3 -c :
+Back to menu | button | xpath | //a[text()='Task Definitions'][1]
+case: related source does not exist
+Cancel | button | xpath | //a[@title='Cancel the action' and contains(@id, 'bottomCancel')]
+Cancel task | button | xpath | //a[@title='Cancel changes and close the window' and contains(@id, 'BOTTOM_CANCEL')]
+Back to menu | button | xpath | //a[text()='Task Definitions'][1] | wait 3 -c :
+end esac
+:Post-Steps
+:Penultimate-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/..
