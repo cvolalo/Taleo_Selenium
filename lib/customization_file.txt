@@ -1157,27 +1157,6 @@ case: *Code
 cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]/span/span/span/span
 end esac
 
-[Manage Documents]
-:Properties
-Sheetname | Manage Documents
-Action | Manual
-Recursive | False
-:Pre-Prep
-Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
-:Pre-Steps
-Documents | button | xpath | //span[text()='Documents']/..//a//span[text()='Documents']
-:Fields
-Code | button | xpath | //span[text()='$String']/../../..//span[text()='$.sName']
-Activate | button | xpath | //span[text()='Activate'] | wait 5 -c :throws Activated
-:Post-Steps
-CSA | button | xpath | //a[contains(text(),'Career Section Administration')]
-:Undo-Steps
-Cancel | button | xpath | //a[contains(text(),'Career Section Administration')]
-case: Activated
-Cancel | button | xpath | //a[contains(text(),'Career Section Administration')]
-end esac
-
 [Manage Task Definitions]
 :Properties
 Sheetname | Manage Task Definitions
