@@ -549,7 +549,7 @@ setExcelCol: Locations and Place of Residence
 placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
 case: Yes
 type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select
-resuem esac
+resume esac
 case: No
 resume esac
 setExcelRow: Skills
@@ -1126,7 +1126,6 @@ Cancel | button | xpath | //span[text()='Cancel']/..
 case: record not found
 end esac
 
-
 [Manage User Defined Selections]
 :Properties
 Sheetname | Manage User Defined Selections
@@ -1241,5 +1240,44 @@ Back to menu | button | xpath | //a[text()='Task Definitions'][1] | wait 3 -c :
 end esac
 :Post-Steps
 :Penultimate-Steps
+:Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']/..
+
+[Manage Diversity Form List]
+:Properties
+Sheetname | Diversity Form List
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Career Section Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+Career Section | button | xpath | //span[text()='Diversity Forms']/..//a/span[text()='Diversity Forms']
+:Pre-Steps
+:Fields
+//Refine By | select | xpath | //span[text()='Refine by']/../select | encode: Keyword
+Create | button | xpath | //span[text()='Create']
+Check If All Location | button | xpath | //label[contains(.,'Generic')]/input | 'case $.sApplies to all location'
+case: TRUE
+Continue | button | xpath | //span[contains(@class,'left-top')][2]//span[text()='Continue']
+resume esac
+case: FALSE
+Add Location | button | xpath | //span[text()='Add']
+array | 4 | -delimiter ","
+Search Location | textbox | xpath | //label[contains(text(),'contains')]/../input
+Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
+Search Result | button | xpath | //td/span[text()='$.sLocation']/../..//input
+stop
+Select Location | button | xpath | //span[text()='Select']
+Continue | button | xpath | //span[contains(@class,'left-top')][2]//span[text()='Continue']
+resume esac
+setExcelCol: *Code
+*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Frame | switch | xpath | //iframe[@title='Editor']
+Source | button | xpath | //img[@alt='Source']
+Description | textbox | xpath | //textarea[@id='eSourceField']
+Default Frame | switch default | xpath | //img[@alt='Source']
+:Post-Steps
+Finish | button | xpath | //span[contains(@class,'left-top')][2]//span[text()='Finish']
 :Undo-Steps
 Cancel | button | xpath | //span[text()='Cancel']/..
