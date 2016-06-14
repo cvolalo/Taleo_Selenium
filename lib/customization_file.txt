@@ -455,9 +455,8 @@ Source Types | select | xpath | //select[@name='availableSourceTypes']
 Available Sources | select | xpath | //select[@name='availableSources']
 Default Frame | switch default | xpath | //select[@name='availableSources']
 Frame | switch | xpath | //frame[@name='HeaderFrame']
-//Save | button | xpath | //a[text()='Save']
 :Post-Steps
-Cancel | button | xpath | //a[text()='Cancel']
+Save | button | xpath | //a[text()='Save']
 :Undo-Steps
 Cancel | button | xpath | //a[text()='Cancel']
 
