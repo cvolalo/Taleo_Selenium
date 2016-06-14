@@ -1,6 +1,8 @@
 package hcm.common;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
@@ -152,8 +154,10 @@ public class ArgumentHandler {
 		return retrievingMap;
 	}
 
-	public static String executeArgumentConverter(String current, ExcelReader excelReader, int rowNum, int rowGroup, int truecolNum) throws Exception{
+	public static String executeArgumentConverter(String current, ExcelReader excelReader, int rowNum, int rowGroup, int truecolNum, int arraySize) throws Exception{ 
 		int colNum = 0;
+		arraySize += 1; //Modify array size... 
+		List<String> dataList = new ArrayList<String>();
 		String[] step = current.split(" \\| ");
 		
 		if (current.contains("$.s")) {
@@ -178,7 +182,11 @@ public class ArgumentHandler {
 				//if (excelReader.getCellData(SeleniumDriver.defaultLabelRow, colNum).trim().contentEquals(strArg.replaceAll("\\$\\.s", ""))) {
 				if (excelReader.getCellData(rowGroup+1, colNum).trim().contentEquals(strArg.replaceAll("\\$\\.s", "").replaceAll("\\[i\\]", ""))) {
 					System.out.print("DONE. Formerly "+ current);
-					current = current.replace(strArg, excelReader.getCellData(rowNum,colNum));
+					//current = current.replace(strArg, excelReader.getCellData(rowNum,colNum));
+					dataList = ArgumentExecutor.getDataSet(excelReader.getCellData(rowNum, colNum)); //Recent change 6/13
+					while(dataList.size() > arraySize) dataList.remove(0);
+					System.out.println("obtained data.. "+dataList.get(0));
+					current = current.replace(strArg, dataList.get(0)); //Recent change... 6/13 
 					step = current.split(" \\| ");
 					System.out.println(" is now: " + current);
 					break inputloop;

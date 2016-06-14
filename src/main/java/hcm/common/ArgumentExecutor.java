@@ -49,6 +49,23 @@ public class ArgumentExecutor {
 		
 		return "";
 	} 
+	public static List<String> getDataSet(String data) throws InputErrorException {
+		String delimiter = "";
+		List<String> dataList = new ArrayList<String>();
+		
+		if(data.contains(",")) delimiter =  ",";
+		else if(data.contains("\n")) delimiter = "\\n";
+		else if(delimiter.isEmpty()){
+			//throw new InputErrorException("\nNo delimiter found for multi-data: "+data);
+			dataList.add(data);
+			return dataList;
+		}
+		
+		String[] dataSet = data.split(delimiter);
+		for(String datum: dataSet) dataList.add(datum);
+		
+		return dataList;
+	} 
 	public static String executeArithmetic(String statement, int intArgument) throws Exception{
 		String result = "";
 		int i = 0;

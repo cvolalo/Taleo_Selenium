@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.net.URL;
 import java.util.Enumeration;
@@ -27,6 +28,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import hcm.common.ExtendedFirefoxDriver;
 import hcm.common.ArgumentExecutor;
 import hcm.common.ArgumentHandler;
+import hcm.common.ArrayHandler;
 import hcm.common.CustomRunnable;
 import hcm.common.DuplicateEntryException;
 import hcm.common.InputErrorHandler;
@@ -351,7 +353,11 @@ public class SeleniumDriver {
 			Vector<String> fields = textReader.getCollection(sr, "Fields");
 			Map<String, String> savedEntry = new HashMap<String, String>();
 			Map<String, String> fieldVariables = new HashMap<String, String>();
-
+			List<String> arrayDataHolder = new ArrayList<String>();
+			List<Integer> arrayColHolder = new ArrayList<Integer>();
+			
+			String delimiter = "chr1$t1anX";
+			
 			int fieldSize = fields.size();
 			int colNum = 0;
 			// int rowGroup = defaultLabelRow-1;
@@ -411,14 +417,35 @@ public class SeleniumDriver {
 				//array handler
 				if (step[0].contains("array") && !step[0].contains("col")) {
 					arrayCol = step[1];
+					arrayColHolder.add(Integer.parseInt(step[1]));
+					colNum = Integer.parseInt(arrayCol);
 					arrayRow = rowNum;
-					isAnArrayAction = true;
+					if (step.length < 3)isAnArrayAction = true;
+					else {//cellArray
+						String data = excelReader.getCellData(rowNum, colNum);
+						Map<String, String> arrayMap = ArrayHandler.getArrayArgument(step[2]);
+						int increment = Integer.parseInt(arrayMap.get("increment"));
+						delimiter = arrayMap.get("delimiter");
+						
+						String[] arrayData = data.split(delimiter);
+						for(String datum: arrayData){
+							arrayDataHolder.add(datum.trim());
+						}
+					}
 					checkpoint = iteration + 1;
 					iteration++;
 					continue fieldloop;
 				} else if (step[0].contains("stop") && !step[0].contains("col")) {
 					int nextRow = rowNum + 1;
-
+					
+					//add
+					if (arrayDataHolder.size() > 0){
+						colNum = Integer.parseInt(arrayCol);
+						iteration = checkpoint;
+						System.out.println("Continuing single-data multi-input array..");
+						continue fieldloop;
+						
+					} 
 					if (excelReader.getCellData(nextRow, Integer.valueOf(arrayCol)).length()>0){
 						if (excelReader.getCellData(rowNum, 0).contentEquals(excelReader.getCellData(nextRow, 0))) {
 							rowNum++;
@@ -440,6 +467,7 @@ public class SeleniumDriver {
 					if(nextPivotIndex < rowInputs) nextPivotIndex = rowInputs;
 					rowInputs = 0;
 					isAnArrayAction = false;
+					arrayColHolder.remove(arrayColHolder.size()-1);
 					rowNum = arrayRow; //Reverts the row back..
 					iteration++;
 					continue fieldloop;
@@ -495,12 +523,24 @@ public class SeleniumDriver {
 
 				// Data conditions...
 				String data = "";
-				if (step[0].toLowerCase().contains("time") && !step[0].toLowerCase().contains("zone")) {
+				if (arrayDataHolder.size() > 0 && colNum == arrayColHolder.get(arrayColHolder.size()-1) && 
+						!current.contains("button") && !current.contains("nullable") && !current.contains("drop")){//cellArray
+					data = arrayDataHolder.get(0);
+					System.out.println("Processing action data: "+data);
+					current = current.replace("$.s"+excelReader.getCellData(rowGroup+1, colNum).trim(), data);//cellArray data correction...
+					System.out.println("New current: "+current);
+					arrayDataHolder.remove(0);
+				} else if (step[0].toLowerCase().contains("time") && !step[0].toLowerCase().contains("zone")) {
 					data = excelReader.getCellData(rowNum, colNum, "time");
 				} else if (step.length > 4 && step[4].toLowerCase().contains("parse number")) {
 					data = ArgumentExecutor.executeCellParser(step[4], excelReader, rowNum, colNum, data);
 				} else {
 					data = excelReader.getCellData(rowNum, colNum);
+					if(arrayDataHolder.size() > 0 && (data.contains(",") || data.contains("\n"))){//cellArrayif
+						List<String> dataList = ArgumentExecutor.getDataSet(data);
+						while(dataList.size() > arrayDataHolder.size()) dataList.remove(0);
+						data = dataList.get(0);
+					}
 				}
 
 				if (step[0].toUpperCase().contains("WAIT TO APPEAR")) {
@@ -517,7 +557,7 @@ public class SeleniumDriver {
 							&& !step[1].contains("skippable") && !current.contains("trigger:") && !current.contains("switch") && !current.contains("drop")) {
 						System.out.print(step[0] + " is empty.\n");
 					} else {
-						current = ArgumentHandler.executeArgumentConverter(current, excelReader, rowNum, rowGroup, colNum);
+						current = ArgumentHandler.executeArgumentConverter(current, excelReader, rowNum, rowGroup, colNum, arrayDataHolder.size());
 						step = current.split(" \\| ");
 
 						try {
@@ -802,7 +842,7 @@ public class SeleniumDriver {
 				continue stepsloop;
 			}
 
-			current = ArgumentHandler.executeArgumentConverter(current, excelReader, curRowNum, rowGroup, colNum);
+			current = ArgumentHandler.executeArgumentConverter(current, excelReader, curRowNum, rowGroup, colNum, 0);
 			step = current.split(" \\| ");
 			// Third step checker..
 			if (step[3].contains("$afrrkInt")) {
@@ -1214,7 +1254,7 @@ public class SeleniumDriver {
 			}
 
 			// Validation actions...
-			current = ArgumentHandler.executeArgumentConverter(current, excelReader, curRowNum, rowGroup, colNum);
+			current = ArgumentHandler.executeArgumentConverter(current, excelReader, curRowNum, rowGroup, colNum, 0);
 			step = current.split(" \\| ");
 
 			if (step.length > 4) {
