@@ -431,7 +431,7 @@ save | button | xpath | //span[text()='Save']
 :Undo-Steps
 cancel | button | xpath | //span[text()='Cancel']
 
-[Create Matching Candidate Filters]
+[Create Matching Candidate Filter]
 :Properties
 Sheetname | Matching Candidate Filters
 Action | Manual
@@ -621,7 +621,6 @@ default frame | switch default | xpath | //span[contains(text(),'Salary')]/../..
 frame | switch | xpath | //frame[2]
 :Post-Steps
 save | button | xpath | //span[text()='Save']
-:Post-Steps
 :Undo-Steps
 
 [Create Candidate Matching Criteria]
@@ -1076,20 +1075,29 @@ Create | button | xpath | //span[text()='Create']/..
 Code | textbox | xpath | //label[contains(text(), 'Code')]/../input
 Name | textbox | xpath | //input[contains(@id, 'formName')]
 Page Name | textbox | xpath | //label[contains(text(), 'Page Name')]/../input
+//Field Chooser | select | xpath | //select[contains(@id, 'leftNavBox')]/option[@value='$.sField Chooser']
 array | 4
 Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]
-Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]/option[@value='$.sField Type']
+Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]/option[@value='$.sField Chooser']
 Field Chooser | button | xpath | //select[contains(@id, 'leftNavBox')]
 setExcelCol: Page Content
-Drag | drag | xpath | //ul/li[text()='$.sPage Content']
-Drop | drop | xpath | //div[@class='cf-root']/div[1]
+Drag | drag | xpath | //ul/li[text()='$.sPage Content'] | wait 3
+Drop | drop | xpath | //div[@class='cf-root'] | wait 5
+//div[1]
 stop
 //div[contains(@id, 'id-2')]/../div/span
+//input[@id='id-4']F
+//input[@id='id-6']L
+//input[@id='id-8']M
 :Post-Steps
-Save | button | xpath | //span[text()='Save']
+skip:
+//Save | button | xpath | //span[text()='Save']
+//Header | button | xpath | //h1/span[text()='User-defined Forms']
 :Penultimate-Steps
+skip:
 :Undo-Steps
 Cancel | button | xpath | //span[text()='Cancel']
+Header | button | xpath | //h1/span[text()='User-defined Forms']
 
 [Manage Electronic Signature]
 :Properties
@@ -1114,12 +1122,11 @@ Signature Type | select | xpath | //label[contains(@id, 'signatureTypeLabel')]/.
 Save | button | xpath | //span[text()='Save']/..
 :Penultimate-Steps
 :Undo-Steps
-
-
-
 Cancel | button | xpath | //span[text()='Cancel']/..
 case: record not found
 end esac
+
+
 [Manage User Defined Selections]
 :Properties
 Sheetname | Manage User Defined Selections
