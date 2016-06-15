@@ -11,6 +11,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.openqa.selenium.*;
@@ -54,6 +55,8 @@ public class SeleniumDriver {
 	private static Actions performer; 
 	WebElement frame;
 	private String caseName;
+	private boolean windowSwitched = false;
+	private String parentWindow;
 	private String workspace_path;
 	// Case-dependent variables
 	private int afrrkInt = 0;
@@ -81,6 +84,7 @@ public class SeleniumDriver {
 			System.out.println("Browser size: "	+ driver.manage().window().getSize());
 			augmentedDriver = new Augmenter().augment(driver);
 			
+			parentWindow = driver.getWindowHandle();
 			performer = new Actions(driver); 
 
 			// Read text file
@@ -975,6 +979,7 @@ public class SeleniumDriver {
 	public void action(String name, String type, String locatorType, String locator, String data) throws Exception {
 		System.out.println("Performing actions...");
 		int TIME_OUT = MAX_TIMEOUT;
+		WebElement element = null;
 		int attempts = 0;
 
 		if (type.contentEquals("skippable")) {
@@ -989,22 +994,20 @@ public class SeleniumDriver {
 
 				if (name.contentEquals("Cancel"))
 					TIME_OUT = 10;
-				System.out.println("Waiting for element to be found...");
-				TaskUtilities.customWaitForElementVisibility(locatorType,locator, TIME_OUT, new CustomRunnable() {
-
-							public void customRun() throws Exception {
-								// TODO Auto-generated method stub
-								//TaskUtilities.jsCheckMessageContainer();
-								//TaskUtilities.jsCheckInputErrors();
-							}
-						});
-				TaskUtilities.jsScrollIntoView(locatorType, locator);
-				// boolean isDisabled =
-				// TaskUtilities.jsCheckEnablementStatus(locatorType ,locator);
-				// if(!isDisabled)
-				// wait.until(ExpectedConditions.elementToBeClickable(getLocator(locatorType,locator)));
-				WebElement element = getElement(locatorType, locator);
-
+				
+				if(!type.contains("window")){
+					System.out.println("Waiting for element to be found...");
+						TaskUtilities.customWaitForElementVisibility(locatorType,locator, TIME_OUT, new CustomRunnable() {
+	
+								public void customRun() throws Exception {
+									// TODO Auto-generated method stub
+									//TaskUtilities.jsCheckMessageContainer();
+									//TaskUtilities.jsCheckInputErrors();
+								}
+							});
+					TaskUtilities.jsScrollIntoView(locatorType, locator);
+					element = getElement(locatorType, locator);
+				}
 				// Coordinates coordinate =
 				// ((Locatable)element).getCoordinates();
 				// coordinate.onPage();
@@ -1081,11 +1084,42 @@ public class SeleniumDriver {
 					if (type.contains("default")) {
 						driver.switchTo().defaultContent();
 						System.out.println("Frame switch to default.");
+					} else if (type.contains("child window")) {
+						// Switch to new window opened
+						int loopCount = 0;
+						System.out.println("Switching to child window...");
+						while (driver.getWindowHandles().size() == 1){
+							//waiting for the new window
+							 System.out.println("Waiting for the new window...");
+							 Thread.sleep(850);
+							 if (loopCount >= 10) break;
+							 loopCount ++;
+						}
+						for(String winHandle : driver.getWindowHandles()){
+							if(!winHandle.equals(parentWindow)){
+							driver.switchTo().window(winHandle);
+						    windowSwitched = true;
+						    System.out.println("Switched to child window.");
+						    break;
+							}
+						}
+					} else if (type.contains("parent window")){
+						System.out.println("Switching to parent window...");
+						try{
+							driver.getWindowHandles(); //test if other window still opens
+						if (windowSwitched = true) driver.close();
+						} catch (NoSuchWindowException e){
+							System.out.println("Child window is already closed.");
+							//child window is closed
+						}
+						driver.switchTo().window(parentWindow);
+						System.out.println("Switched to parent window");
+						windowSwitched = false;
 					} else{
 					
 					frame = driver.findElement(getLocator(locatorType,locator));
 					driver.switchTo().frame(frame);
-					System.out.println("Frame switch to " + frame);
+					System.out.println("Frame switched to " + locator);
 					}
 					
 				} else if (type.contentEquals("checkbox")) {

@@ -349,7 +349,6 @@ Done | button | xpath | //span[text()='Done']/..
 :Penultimate-Steps
 :Undo-Steps
 
-
 [Create User Defined Forms]
 :Properties
 Sheetname | Create User Defined Forms
@@ -410,8 +409,8 @@ Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
 Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
-:Pre-Steps
 Candidate Filters | button | xpath | //span[text()='Process']/..//span[text()='Matching Candidate Filters']
+:Pre-Steps
 :Fields
 Frame | switch | xpath | //frame[@name='ContentFrame']
 setExcelCol: Invite internal candidates
@@ -426,8 +425,15 @@ Source Types | select | xpath | //select[@name='availableSourceTypes']
 Available Sources | select | xpath | //select[@name='availableSources']
 Default Frame | switch default | xpath | //select[@name='availableSources']
 Frame | switch | xpath | //frame[@name='HeaderFrame']
-:Post-Steps
 Save | button | xpath | //a[text()='Save']
+Popup Window | switch child window | xpath | //*
+Main Content Frame | switch | xpath | //frame[@id='mainContentFrame']
+OK | button | xpath | //span[text()='OK']
+Parent Window | switch parent window | xpath | //*
+Header Frame | switch | xpath | //frame[@name='HeaderFrame']
+:Post-Steps
+:Penultimate-Steps
+Tale Recruiting Administration | button | xpath | //a[text()='Taleo Recruiting Administration']
 :Undo-Steps
 Cancel | button | xpath | //a[text()='Cancel']
 
@@ -495,33 +501,17 @@ Matching Requisition Criteria | button | xpath | //a/span[text()='Matching Requi
 :Fields
 frame | switch | xpath | //frame[3]
 setExcelRow: Structure
-jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2] | 'case $.sMatch of Job and Preferred Jobs'
-case: Yes
-type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select
-resume esac
-case: No
-resume esac
+jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Locations and Preferred Locations
 locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2] | 'case $.sLocations and Preferred Locations'
-case: Yes
-type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Organization and Preferred Organizations
 orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'
-case: Yes
-type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Locations and Place of Residence
 placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
-case: Yes
-type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelRow: Skills
 setExcelCol: Required Only
 required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
@@ -533,64 +523,39 @@ required and asset | checkbox | xpath | //span[contains(text(),'answers marked a
 setExcelRow: Basic Profile
 setExcelCol: Job Level
 joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2] | 'case $.sJob Level'
-case: Yes
-type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Job Type
 jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
-case: Yes
-type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Schedule
 schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
-case: Yes
-type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Shift
 shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
-case: Yes
-type | select | xpath | //span[contains(text(),'Shift')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Employee Status
 employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
-case: Yes
-type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Study Level
 studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
-case: Yes
-type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Willing to Travel
 willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
-case: Yes
-type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Salary
 salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
-case: Yes
-type | select | xpath | //span[contains(text(),'Salary')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] wait 3 -c :
 default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
-:Post-Steps
 save | button | xpath | //span[text()='Save']
+Popup Window | switch child window | xpath | //*
+Main Content Frame | switch | xpath | //frame[@id='mainContentFrame']
+OK | button | xpath | //span[text()='OK']
+Parent Window | switch parent window | xpath | //*
+Header Frame | switch | xpath | //frame[@name='HeaderFrame']
+:Post-Steps
+:Penultimate-Steps
+Tale Recruiting Administration | button | xpath | //a[text()='Taleo Recruiting Administration']
 :Undo-Steps
 
 [Create Candidate Matching Criteria]
@@ -606,19 +571,11 @@ Matching Candidate Criteria | button | xpath | //a/span[text()='Matching Candida
 :Fields
 frame | switch | xpath | //frame[3]
 setExcelRow: Structure
-orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'
-case: Yes
-type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select
-resume esac
-case: No
-resume esac
+orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Locations and Place of Residence
-placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
-case: Yes
-type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select
-resuem esac
-case: No
-resume esac
+placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelRow: Skills
 setExcelCol: Required Only
 required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
@@ -629,66 +586,40 @@ required | checkbox | xpath | //span[contains(text(),'(Based on answers marked a
 required and asset | checkbox | xpath | //span[contains(text(),'answers marked as asset')]/../../td/input[2]
 setExcelRow: Basic Profile
 setExcelCol: Job Level
-joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2] | 'case $.sJob Level'
-case: Yes
-type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select
-resume esac
-case: No
-resume esac
+joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2]
+type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Job Type
 jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
-case: Yes
-type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Schedule
 schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
-case: Yes
-type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Shift
 shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
-case: Yes
-type | select | xpath | //span[contains(text(),'Shift')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Employee Status
 employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
-case: Yes
-type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Study Level
 studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
-case: Yes
-type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Willing to Travel
 willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
-case: Yes
-type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] wait 3 -c :
 setExcelCol: Salary
 salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
-case: Yes
-type | select | xpath | //span[contains(text(),'Salary')]/../../td/select
-resume esac
-case: No
-resume esac
+type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] wait 3 -c :
 default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
-:Post-Steps
 save | button | xpath | //span[text()='Save']
+Popup Window | switch child window | xpath | //*
+Main Content Frame | switch | xpath | //frame[@id='mainContentFrame']
+OK | button | xpath | //span[text()='OK']
+Parent Window | switch parent window | xpath | //*
+Header Frame | switch | xpath | //frame[@name='HeaderFrame']
 :Post-Steps
+:Penultimate-Steps
+Tale Recruiting Administration | button | xpath | //a[text()='Taleo Recruiting Administration']
 :Undo-Steps
 
 [Create Paragraphs]
@@ -1077,7 +1008,6 @@ skip:
 Cancel | button | xpath | //span[text()='Cancel']
 Header | button | xpath | //h1/span[text()='User-defined Forms']
 
-
 [Manage Electronic Signature]
 :Properties
 Sheetname | Manage Electronic Signature
@@ -1137,7 +1067,6 @@ case: *Code
 cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]/span/span/span/span
 end esac
 
-
 [Manage Diversity Form List]
 :Properties
 Sheetname | Diversity Form List
@@ -1176,7 +1105,6 @@ Default Frame | switch default | xpath | //img[@alt='Source']
 Finish | button | xpath | //span[contains(@class,'left-top')][2]//span[text()='Finish']
 :Undo-Steps
 Cancel | button | xpath | //span[text()='Cancel']/..
-
 
 [Manage Task Definitions]
 :Properties
@@ -1242,7 +1170,6 @@ end esac
 :Undo-Steps
 Cancel | button | xpath | //span[text()='Cancel']/..
 
-
 [Manage Process Steps]
 :Properties
 Sheetname | Manage Process Steps
@@ -1283,7 +1210,6 @@ Save | button | xpath | //a[contains(@id,'UP_SAVE')]//span[text()='Save']
 :Undo-Steps
 skip:
 
-
 [Manage Onboarding Paragraphs]
 :Properties
 Sheetname | Manage Onboarding Paragraphs
@@ -1315,7 +1241,6 @@ end esac
 case: *Text
 cancel | button | xpath | //a[contains(@id,'cmParaEditCancelActionUp')]//span[text()='Cancel']
 end esac
-
 
 [Manage Onboarding Documents]
 :Properties
