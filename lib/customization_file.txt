@@ -994,13 +994,9 @@ PersonalizedJL | button | xpath | //span[text()='Personalized Job List']
 PersonalizedEdit | button | xpath | //span[text()='Edit']
 :Fields
 HeaderMC | button | xpath | //span[text()='Matching Criteria - Personalized Job Lists']
-Job | nullable | xpath | //span[contains(text(),'Preferred Jobs')]
 Job | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../..//select
-Location | nullable | xpath | //span[contains(text(),'Preferred Locations')]
 Location | select | xpath | //span[contains(text(),'Preferred Locations')]/../../..//select | unstale
-Organization |nullable | xpath | //span[contains(text(),'Preferred Organizations')]
 Organization | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../..//select
-PlaceofResidence | nullable | xpath | //span[contains(text(),'Place of Residence')]
 PlaceofResidence | select | xpath | //span[contains(text(),'Place of Residence')]/../../..//select | unstale
 Comp1 | checkbox | xpath | //label[contains(text(),'based on competencies marked as required)')]/..//input
 Comp2 | checkbox | xpath | //label[contains(text(),'based on competencies marked as required AND')]/..//input
