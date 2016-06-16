@@ -325,7 +325,7 @@ Frame | switch | xpath | //frame[@name='HeaderFrame'] | wait 3 -c :
 Custom | button | xpath | //span[contains(text(), 'Custom')]/.. | wait 3 -c :
 Frame | switch default | xpath | //span[contains(text(), 'Custom')]/.. | wait 3 -c :
 Frame | switch | xpath | //frame[@name='ContentFrame'] | wait 5 -c :
-Find Code | button | xpath | //a[text()='$.sSearch Code'] | wait 10 -c case continue : Create New Field
+Find Code | button | xpath | //a[text()='$.sSearch Code'] | wait 10 -c case continue : case Create New Field
 case: Create New Field
 Frame | switch default | xpath | //span[contains(text(),'Code') and @class='l1header'] | wait 3 -c :
 Frame | switch | xpath | //frame[@name='HeaderFrame'] | wait 3 -c :
@@ -794,6 +794,59 @@ add | button | xpath | //span[text()='Add']
 :Post-Steps
 :Undo-Steps
 
+
+[Manage Question Type]
+:Properties
+Sheetname | Manage Question Type
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Career Section Administration | button | xpath | //span[text()='Career Section']/../a/span[@title='Access the administration']
+Question Type | button | xpath | //span[@title='Access the list of diversity question types']
+:Pre-Steps
+:Fields
+Refine by Code | select | xpath | //select[contains(@id, 'selectOneMenuFilters1')] | encode: Code
+setExcelCol: Code
+Search Code | textbox | xpath | //input[contains(@id, 'inputTextString1')]
+Refresh | button | xpath | //a[@title='Refresh the list according to selection']
+Search-Select Code | button | xpath | //td/a/span[text()='$.sCode'] | wait 3 -c case Code found : case Code not found
+case: Code found
+Edit question type | button | xpath | //span[@title='Edit this question type']
+Question Type Name | textbox | xpath | //input[contains(@id, 'QuestionType_Name')]
+Save | button | xpath | //a[@title='Save changes and return to the previous page' and contains(@id, 'Save_Bottom')]
+Search Possible Answer | button | xpath | //span[contains(@id, 'QuestionPossibleAnswerTypeList') and text()='$.sPossible Answer Type'] | wait 3 -c case exist :
+Create Possible Answer Type | button | xpath | //span[@title='Create a possible answer type']
+New Answer Type | nullable | xpath | //span[contains(@id, 'PageHeader_Title')]
+array | 2 | -delimiter ","
+Language | button | xpath | //select[contains(@id, 'PossibleAnswerType')]
+Language select | radio | xpath | //option[contains(text(), '$.sLanguage')]
+Refresh | button | xpath | //a[@title='Refresh according to selection']
+Code | textbox | xpath | //input[contains(@id, 'PossibleAnswerType_Code')]
+setExcelCol: Possible Answer Type
+Name | textbox | xpath | //input[contains(@id, 'PossibleAnswerType_Name')]
+Refresh | button | xpath | //a[@title='Refresh according to selection']
+stop
+Save | button | xpath | //a[@title='Save changes and return to the previous page' and contains(@id, 'Save_Bottom')]
+Err Msg | button | xpath | //span[contains(@id, 'ErrorMsg')] | wait 3 -c case withError :
+case: withError
+Cancel | button | xpath | //a[@title='Cancel changes and return to the previous page' and contains(@id, 'Cancel_Bottom')]
+Back to main | button | xpath | //a[text()='Diversity Question Type'][1]
+resume esac
+case: exist
+end esac
+setExcelCol: Status
+Status | button | xpath | //a[contains(@title,'$.sStatus') and contains(@title,'this answer type')] | wait 5 -c :
+Back to main | button | xpath | //a[text()='Diversity Question Type'][1]
+end esac
+case: Code not found
+end esac
+:Post-Steps
+:Penultimate-Steps
+:Undo-Steps
+Back to main | button | xpath | //a[text()='Diversity Question Type'][1]
+
+
 [Manage Statements]
 :Properties
 Sheetname | Manage Statements
@@ -1085,25 +1138,26 @@ Action | Manual
 Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Onboarding (Transitions) Administration | button | xpath | //span[text()='Onboarding (Transitions)']/../a/span[@title='Access the administration']
-defined Electronic Signatures | button | xpath | //span[text()='User-defined Electronic Signatures']
+Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
 :Pre-Steps
+Header | h1 | xpath | //span[text()='Onboarding (Transitions) Administration']
+User-defined Electronic Signatures | button | xpath | //span[text()='User-defined Electronic Signatures']
 :Fields
-Refine by Code | select | xpath | //select[contains(@id, 'selectOneMenuFilters1')] | encode: Code
-setExcelCol: Code
-Code textbox | textbox | xpath | //input[contains(@id, 'inputTextString1')]
-Refresh | button | xpath | //span[text()='Refresh']
-Search-Enter Code | button | xpath | //td/label/a/span[text()='$.sCode'] | wait 3 -c : throws record not found
-Editor Header | nullable | xpath | //h1/span[contains(text(), 'Electronic signature Editor')]
-Name | textbox | xpath | //label[contains(@id, 'name')]/../input
-Signature Type | select | xpath | //label[contains(@id, 'signatureTypeLabel')]/../select
+Signature Management | button | xpath | //span[contains(@id,'signatureslist-list-list-content-signatures-6-code')]
+*Code | radio | xpath | //label[contains(text(),'Code')]
+*Name | textbox | xpath | //input[contains(@id,'editTemplate-editForm-content-name')]
+*Signature Type | select | xpath | //select[@class='signature-type-select']
 :Post-Steps
-Save | button | xpath | //span[text()='Save']/..
-:Penultimate-Steps
+Save | button | xpath | //span[contains(@class,'bottom')]//span[text()='Save']
 :Undo-Steps
-Cancel | button | xpath | //span[text()='Cancel']/..
-case: record not found
+Cancel | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Header | h1 | xpath | //span[text()='Electronic signature Editor- Unused signature entry']
+case: *Code,*Name,*Signature Type
+Cancel | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+Header | h1 | xpath | //span[text()='Electronic signature Editor- Unused signature entry']
 end esac
+
+
 
 [Manage User Defined Selections]
 :Properties
@@ -1352,3 +1406,109 @@ Activate | button | xpath | //span[text()='Activate']
 case: Code,Name,ParagraphCode,ParagraphName
 Cancel | button | xpath | //a[@id='editTemplate-editForm-content-parEditPanel-cmParaEditCancelActionUp']//span[text()='Cancel']
 end esac
+
+
+[Manage Onboarding Message Templates]
+:Properties
+Sheetname | Onboarding Message Templates
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Onboarding Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
+Header | button | xpath | //span[text()='Onboarding (Transitions) Administration']
+Message Templates | button | xpath | //span[text()='Correspondence']/..//span[text()='Message Templates']
+:Pre-Steps
+Header | button | xpath | //span[text()='Message Templates']
+:Fields
+Code | select | xpath | //span[text()='Refine by']/..//select
+Name | button | xpath | //span[text()='$String'] | wait 15 -c case Edit:case Create
+case: Create
+setExcelRow: Create
+Create | button | xpath | //span[text()='Create']
+Header | h1 | xpath | //span[text()='New Message Properties']
+end esac
+case: Edit
+setExcelRow: Edit
+Name | h1 | xpath | //span[text()='Template - $String']
+Edit | button | xpath | //span[text()='Edit']
+end esac
+*Code | textbox | xpath | //label[contains(text(),'Code')]/..//input
+Name | textbox | xpath | //label[contains(text(),'Name')]/..//input
+Description | textbox | xpath | //label[contains(text(),'Description')]/..//textarea
+Status | h1 | xpath | //label[contains(text(),'Status')]
+Sensitivity | select | xpath | //span[text()='Sensitivity']/..//select | unstale
+Message Format | select | xpath | //span[text()='Message Format']/..//select | unstale
+To | textbox | xpath | //label[contains(@id,'LabelTo')]/..//input
+Reply | textbox | xpath | //label[contains(text(),'Reply')]/..//input
+Cc | textbox | xpath | //label[contains(text(),'Cc')]/..//input
+Bcc | textbox | xpath | //label[contains(text(),'Bcc')]/..//input
+Subject | textbox | xpath | //label[contains(text(),'Subject')]/..//input
+Save | button | xpath | //a[contains(@id,'Down')]//span[text()='Save']/.. | wait 5
+Error Check | button | xpath | //span[text()='The action cannot be completed.'] | missing
+:Post-Steps
+Name | button | xpath | //span[text()='Template - $String']
+Message Templates | button | xpath | //a[text()='Message Templates']
+:Undo-Steps
+Cancel | button | xpath | //a[contains(@id,'Down')]//span[text()='Cancel']/..
+
+
+[Manage Onboarding Content Pages]
+:Properties
+Sheetname | Manage Onboarding Content Pages
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Onboarding (Transitions) Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
+Content Pages | button | xpath | //span[text()='Content Pages']/..//a//span[text()='Content Pages']
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']
+:Fields
+Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Check | button | xpath | //label[contains(text(),'Show file upload section below the content page')]/..//input
+File Category | textbox | xpath | //label[contains(text(),'File Category')]/..//input[contains(@type,'text')] | wait 10
+Save | button | xpath | //a[contains(@id,'UP_SAVE')]//span[text()='Save']
+Exists | button | xpath | //span[text()='General Documents'] | wait 5 -c throws Created:throws Exists
+//Activate | button | xpath | //span[text()='Activate']
+:Post-Steps
+HeaderCP | h1 | xpath | //span[contains(@id,'pageHeaderTitleText')][text()='Content Pages']
+:Penultimate-Steps
+:Undo-Steps
+Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]//span[text()='Cancel']
+case: Created
+CPC | button | xpath | //a[text()='Content Page Configuration'] | wait
+resume esac
+case: Exists
+Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]//span[text()='Cancel']
+end esac
+
+
+
+[Manage Images]
+:Properties
+Sheetname | Manage Images
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Onboarding Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
+Header | button | xpath | //span[text()='Onboarding (Transitions) Administration']
+Images | button | xpath | //span[text()='Images']
+Header | button | xpath | //h1//span[text()='Images']
+:Pre-Steps
+Create | button | xpath | //span[text()='Images']/..//span[text()='Create']
+Header | button | xpath | //span[text()='New Image']/..
+:Fields
+Code | textbox | xpath | //label[contains(text(),'Code')]/..//input
+Description | textbox | xpath | //label[contains(text(),'Description')]/..//input
+Browse | upload | xpath | //label[contains(text(),'Image')]/..//input
+Save | button | xpath | //a[contains(@id,'UP_SAVE')]
+Error Check | button | xpath | //span[text()='The action cannot be completed.'] | missing
+:Post-Steps
+Code | button | xpath | //span[text()='Image - $String']
+imgbtn | button | xpath | //a[text()='Images']
+:Undo-Steps
+Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]
+Header | button | xpath | //h1//span[text()='Images']

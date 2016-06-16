@@ -1127,6 +1127,8 @@ public class SeleniumDriver {
 						performer.perform();
 					}
 					System.out.println("Dragged element is now dropped to " + name + " using " + locatorType + " = "+ locator); 
+				} else if(type.contentEquals("upload")){
+					element.sendKeys(data);
 				}
 				if (type.contains("enter")) {
 					element.sendKeys(Keys.ENTER);
