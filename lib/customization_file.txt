@@ -507,13 +507,13 @@ setExcelRow: Structure
 jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Locations and Preferred Locations
-locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2] | 'case $.sLocations and Preferred Locations'
+locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Organization and Preferred Organizations
-orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'
+orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Locations and Place of Residence
-placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
+placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelRow: Skills
 setExcelCol: Required Only
@@ -525,28 +525,28 @@ required | checkbox | xpath | //span[contains(text(),'(Based on answers marked a
 required and asset | checkbox | xpath | //span[contains(text(),'answers marked as asset')]/../../td/input[2]
 setExcelRow: Basic Profile
 setExcelCol: Job Level
-joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2] | 'case $.sJob Level'
+joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Job Type
-jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
+jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Schedule
-schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
+schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Shift
-shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
+shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Employee Status
-employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
+employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Study Level
-studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
+studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Willing to Travel
-willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
+willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Salary
-salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
+salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] | wait 3 -c :
 default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
@@ -592,25 +592,25 @@ setExcelCol: Job Level
 joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Job Type
-jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
+jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Schedule
-schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
+schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Shift
-shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
+shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Employee Status
-employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
+employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Study Level
-studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
+studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Willing to Travel
-willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
+willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Salary
-salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
+salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] | wait 3 -c :
 default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
@@ -1280,3 +1280,61 @@ Activate | button | xpath | //span[text()='Activate']
 case: Code,Name,ParagraphCode,ParagraphName
 Cancel | button | xpath | //a[@id='editTemplate-editForm-content-parEditPanel-cmParaEditCancelActionUp']//span[text()='Cancel']
 end esac
+
+[Create User Defined Forms For Career Section]
+:Properties
+Sheetname | User Defined Forms
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Career Section Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+User-defined Forms | button | xpath | //span[text()='User-defined Forms']/..//a/span[text()='User-defined Forms']
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']
+:Fields
+setExcelCol: Form Type
+Form Type | select | xpath | //span[text()='Select a form type']/..//select
+Use Default | checkbox | xpath | //label[contains(.,'Use the default template')]/../input[@type='checkbox'] | 'case $.sUse Default Template'
+case: Yes,YES,yes
+setExcelCol: *Code
+Create | button | xpath | //span[text()='Create']
+*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/../input
+Save | button | xpath | //span[text()='Save']
+resume esac
+case: No,NO,no
+setExcelCol: *Code
+Create | button | xpath | //span[text()='Create']
+*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/../input
+array | 5
+Field Chooser | drag | xpath | //li[text()='$.sFields']
+Check Column | nullable | xpath | //span[text()='Page Content'] | 'case $.sColumn'
+case: Right
+Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[2]
+resume esac
+case: Left
+Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[1]
+resume esac
+Field Type | select | xpath | //label[text()='Field Type']/../..//select
+Mandatory | select | xpath | //label[text()='Mandatory']/../..//select
+Status | select | xpath | //label[text()='Status']/../..//select
+Field Size | textbox | xpath | //label[text()='Field Size']/../..//input
+stop
+//Remove Section 1 and 2
+Select Section 1 | button | xpath | //div[1]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+Select Section 3 | button | xpath | //div[3]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+Save | button | xpath | //span[text()='Save']
+resume esac
+Refine By | select | xpath | //span[text()='Refine by']/../select | encode: Code
+setExcelCol: *Code
+Search | textbox | xpath | //label[contains(text(),'contains')]/../input
+Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
+Activate Form | button | xpath | //td/span[text()='$.s*Code']/../..//span[text()='Activate'] | wait 5 -c :
+:Post-Steps
+:Undo-Steps
