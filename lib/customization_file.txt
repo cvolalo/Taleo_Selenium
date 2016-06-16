@@ -425,7 +425,7 @@ Source Types | select | xpath | //select[@name='availableSourceTypes']
 Available Sources | select | xpath | //select[@name='availableSources']
 Default Frame | switch default | xpath | //select[@name='availableSources']
 Frame | switch | xpath | //frame[@name='HeaderFrame']
-Save | button | xpath | //a[text()='Save']
+Save | button | xpath | //img[contains(@src,'https:')]/../..//a[text()='Save'] | wait 12 -c :throws Save Not Enabled
 Popup Window | switch child window | xpath | //*
 Main Content Frame | switch | xpath | //frame[@id='mainContentFrame']
 OK | button | xpath | //span[text()='OK']
@@ -436,6 +436,9 @@ Header Frame | switch | xpath | //frame[@name='HeaderFrame']
 Tale Recruiting Administration | button | xpath | //a[text()='Taleo Recruiting Administration']
 :Undo-Steps
 Cancel | button | xpath | //a[text()='Cancel']
+case: Save Not Enabled
+Tale Recruiting Administration | button | xpath | //a[text()='Taleo Recruiting Administration']
+end esac
 
 [Create User Accounts]
 :Properties
@@ -502,16 +505,16 @@ Matching Requisition Criteria | button | xpath | //a/span[text()='Matching Requi
 frame | switch | xpath | //frame[3]
 setExcelRow: Structure
 jobmatching | checkbox | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/input[2]
-type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Preferred Jobs')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Locations and Preferred Locations
 locationsmatching | checkbox | xpath | //span[contains(text(),'Preferred Locations')]/../../td/input[2] | 'case $.sLocations and Preferred Locations'
-type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Preferred Locations')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Organization and Preferred Organizations
 orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'
-type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Locations and Place of Residence
 placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2] | 'case $.sLocations and Place of Residence'
-type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelRow: Skills
 setExcelCol: Required Only
 required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
@@ -523,28 +526,28 @@ required and asset | checkbox | xpath | //span[contains(text(),'answers marked a
 setExcelRow: Basic Profile
 setExcelCol: Job Level
 joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2] | 'case $.sJob Level'
-type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Job Type
 jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
-type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Schedule
 schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
-type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Shift
 shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
-type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Employee Status
 employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
-type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Study Level
 studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
-type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Willing to Travel
 willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
-type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Salary
 salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
-type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] | wait 3 -c :
 default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
 save | button | xpath | //span[text()='Save']
@@ -572,10 +575,10 @@ Matching Candidate Criteria | button | xpath | //a/span[text()='Matching Candida
 frame | switch | xpath | //frame[3]
 setExcelRow: Structure
 orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2]
-type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Locations and Place of Residence
 placematching | checkbox | xpath | //span[contains(text(),'Place of Residence')]/../../td/input[2]
-type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Place of Residence')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelRow: Skills
 setExcelCol: Required Only
 required | checkbox | xpath | //span[contains(text(),'(Based on skills marked as required)')]/../../td/input[2]
@@ -587,28 +590,28 @@ required and asset | checkbox | xpath | //span[contains(text(),'answers marked a
 setExcelRow: Basic Profile
 setExcelCol: Job Level
 joblevel | checkbox | xpath | //span[contains(text(),'Job Level')]/../../td/input[2]
-type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Job Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Job Type
 jobtype | checkbox | xpath | //span[contains(text(),'Job Type')]/../../td/input[2] | 'case $.sJob Type'
-type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Job Type')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Schedule
 schedule | checkbox | xpath | //span[contains(text(),'Schedule')]/../../td/input[2] | 'case $.sSchedule'
-type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Schedule')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Shift
 shift | checkbox | xpath | //span[contains(text(),'Shift')]/../../td/input[2] | 'case $.sShift'
-type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Shift')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Employee Status
 employeestatus | checkbox | xpath | //span[contains(text(),'Employee Status')]/../../td/input[2] | 'case $.sEmployee Status'
-type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Employee Status')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Study Level
 studylevel | checkbox | xpath | //span[contains(text(),'Study Level')]/../../td/input[2] | 'case $.sStudy Level'
-type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Study Level')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Willing to Travel
 willingtotravel | checkbox | xpath | //span[contains(text(),'Willing to Travel')]/../../td/input[2] | 'case $.sWilling to Travel'
-type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Willing to Travel')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Salary
 salary | checkbox | xpath | //span[contains(text(),'Salary')]/../../td/input[2] | 'case $.sSalary'
-type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] wait 3 -c :
+type | select | xpath | //span[contains(text(),'Salary')]/../../td/select[not(@disabled)] | wait 3 -c :
 default frame | switch default | xpath | //span[contains(text(),'Salary')]/../../td/select
 frame | switch | xpath | //frame[2]
 save | button | xpath | //span[text()='Save']
