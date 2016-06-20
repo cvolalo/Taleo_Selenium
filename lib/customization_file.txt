@@ -574,110 +574,6 @@ Matching Candidate Criteria | button | xpath | //a/span[text()='Matching Candida
 :Fields
 frame | switch | xpath | //frame[3]
 setExcelRow: Structure
-orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2] | 'case $.sOrganization and Preferred Organizations'[Manage Onboarding Message Templates]
-:Properties
-Sheetname | Onboarding Message Templates
-Action | Manual
-Recursive | False
-:Pre-Prep
-Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Onboarding Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
-Header | button | xpath | //span[text()='Onboarding (Transitions) Administration']
-Message Templates | button | xpath | //span[text()='Correspondence']/..//span[text()='Message Templates']
-:Pre-Steps
-Header | button | xpath | //span[text()='Message Templates']
-:Fields
-Code | select | xpath | //span[text()='Refine by']/..//select
-Name | button | xpath | //span[text()='$String'] | wait 15 -c case Edit:case Create
-case: Create
-setExcelRow: Create
-Create | button | xpath | //span[text()='Create']
-Header | h1 | xpath | //span[text()='New Message Properties']
-end esac
-case: Edit
-setExcelRow: Edit
-Name | h1 | xpath | //span[text()='Template - $String']
-Edit | button | xpath | //span[text()='Edit']
-end esac
-*Code | textbox | xpath | //label[contains(text(),'Code')]/..//input
-Name | textbox | xpath | //label[contains(text(),'Name')]/..//input
-Description | textbox | xpath | //label[contains(text(),'Description')]/..//textarea
-Status | h1 | xpath | //label[contains(text(),'Status')]
-Sensitivity | select | xpath | //span[text()='Sensitivity']/..//select | unstale
-Message Format | select | xpath | //span[text()='Message Format']/..//select | unstale
-To | textbox | xpath | //label[contains(@id,'LabelTo')]/..//input
-Reply | textbox | xpath | //label[contains(text(),'Reply')]/..//input
-Cc | textbox | xpath | //label[contains(text(),'Cc')]/..//input
-Bcc | textbox | xpath | //label[contains(text(),'Bcc')]/..//input
-Subject | textbox | xpath | //label[contains(text(),'Subject')]/..//input
-Save | button | xpath | //a[contains(@id,'Down')]//span[text()='Save']/.. | wait 5
-Error Check | button | xpath | //span[text()='The action cannot be completed.'] | missing
-:Post-Steps
-Name | button | xpath | //span[text()='Template - $String']
-Message Templates | button | xpath | //a[text()='Message Templates']
-:Undo-Steps
-Cancel | button | xpath | //a[contains(@id,'Down')]//span[text()='Cancel']/..
-
-
-[Manage Onboarding Content Pages]
-:Properties
-Sheetname | Manage Onboarding Content Pages
-Action | Manual
-Recursive | False
-:Pre-Prep
-Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Onboarding (Transitions) Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
-Content Pages | button | xpath | //span[text()='Content Pages']/..//a//span[text()='Content Pages']
-:Pre-Steps
-Create | button | xpath | //span[text()='Create']
-:Fields
-Code | textbox | xpath | //label[contains(text(),'Code')]/../input
-Name | textbox | xpath | //label[contains(text(),'Name')]/../input
-Check | button | xpath | //label[contains(text(),'Show file upload section below the content page')]/..//input
-File Category | textbox | xpath | //label[contains(text(),'File Category')]/..//input[contains(@type,'text')] | wait 10
-Save | button | xpath | //a[contains(@id,'UP_SAVE')]//span[text()='Save']
-Exists | button | xpath | //span[text()='General Documents'] | wait 5 -c throws Created:throws Exists
-//Activate | button | xpath | //span[text()='Activate']
-:Post-Steps
-HeaderCP | h1 | xpath | //span[contains(@id,'pageHeaderTitleText')][text()='Content Pages']
-:Penultimate-Steps
-:Undo-Steps
-Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]//span[text()='Cancel']
-case: Created
-CPC | button | xpath | //a[text()='Content Page Configuration'] | wait
-resume esac
-case: Exists
-Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]//span[text()='Cancel']
-end esac
-
-
-
-[Manage Images]
-:Properties
-Sheetname | Manage Images
-Action | Manual
-Recursive | False
-:Pre-Prep
-Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Onboarding Administration | button | xpath | //span[text()='Onboarding (Transitions)']/..//span[text()='Administration']
-Header | button | xpath | //span[text()='Onboarding (Transitions) Administration']
-Images | button | xpath | //span[text()='Images']
-Header | button | xpath | //h1//span[text()='Images']
-:Pre-Steps
-Create | button | xpath | //span[text()='Images']/..//span[text()='Create']
-Header | button | xpath | //span[text()='New Image']/..
-:Fields
-Code | textbox | xpath | //label[contains(text(),'Code')]/..//input
-Description | textbox | xpath | //label[contains(text(),'Description')]/..//input
-Browse | upload | xpath | //label[contains(text(),'Image')]/..//input
-Save | button | xpath | //a[contains(@id,'UP_SAVE')]
-Error Check | button | xpath | //span[text()='The action cannot be completed.'] | missing
-:Post-Steps
-Code | button | xpath | //span[text()='Image - $String']
-imgbtn | button | xpath | //a[text()='Images']
-:Undo-Steps
-Cancel | button | xpath | //a[contains(@id,'UP_CANCEL')]
-Header | button | xpath | //h1//span[text()='Images']
 orgmatching | checkbox | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/input[2]
 type | select | xpath | //span[contains(text(),'Preferred Organizations')]/../../td/select[not(@disabled)] | wait 3 -c :
 setExcelCol: Locations and Place of Residence
@@ -995,6 +891,67 @@ Status | button | xpath | //a[contains(@title,'$.sStatus') and contains(@title,'
 Configuration | button | xpath | //a[text()='Configuration']
 :Undo-Steps
 Cancel | button | xpath | //span[@class='button-group-left-bottom']//span[text()='Cancel']
+
+
+[Create User Defined Forms For Career Section]
+:Properties
+Sheetname | User Defined Forms
+Action | Manual
+Recursive | False
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Career Section Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
+User-defined Forms | button | xpath | //span[text()='User-defined Forms']/..//a/span[text()='User-defined Forms']
+:Pre-Steps
+Create | button | xpath | //span[text()='Create']
+:Fields
+setExcelCol: Form Type
+Form Type | select | xpath | //span[text()='Select a form type']/..//select
+Use Default | checkbox | xpath | //label[contains(.,'Use the default template')]/../input[@type='checkbox'] | 'case $.sUse Default Template'
+case: Yes,YES,yes
+setExcelCol: *Code
+Create | button | xpath | //span[text()='Create']
+*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/../input
+Save | button | xpath | //span[text()='Save']
+resume esac
+case: No,NO,no
+setExcelCol: *Code
+Create | button | xpath | //span[text()='Create']
+*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Description | textbox | xpath | //label[contains(text(),'Description')]/../input
+array | 5
+Field Chooser | drag | xpath | //li[text()='$.sFields']
+Check Column | nullable | xpath | //span[text()='Page Content'] | 'case $.sColumn'
+case: Right
+Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[2]
+resume esac
+case: Left
+Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[1]
+resume esac
+Field Type | select | xpath | //label[text()='Field Type']/../..//select
+Mandatory | select | xpath | //label[text()='Mandatory']/../..//select
+Status | select | xpath | //label[text()='Status']/../..//select
+Field Size | textbox | xpath | //label[text()='Field Size']/../..//input
+stop
+//Remove Section 1 and 2
+Select Section 1 | button | xpath | //div[1]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+Select Section 3 | button | xpath | //div[3]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+Save | button | xpath | //span[text()='Save']
+resume esac
+Refine By | select | xpath | //span[text()='Refine by']/../select | encode: Code
+setExcelCol: *Code
+Search | textbox | xpath | //label[contains(text(),'contains')]/../input
+Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
+Activate Form | button | xpath | //td/span[text()='$.s*Code']/../..//span[text()='Activate'] | wait 5 -c :
+:Post-Steps
+:Undo-Steps
+
+
 
 [Manage Application Flows]
 :Properties
@@ -1366,8 +1323,57 @@ Owner Name1 | textbox-enter | xpath | //input[contains(@id,'inputTextString1')]
 Select Name1 | button | xpath | //td[1]/input
 Select | button | xpath | //a[contains(@id,'bottomSelect')]/span/span/span/span[text()='Select']
 resume esac
+Save | button | xpath | //a[contains(@id,'BOTTOM_SAVE')]//span[text()='Save']
+//Creation of steps
+setExcelRow: TASK
+array | 0
+setExcelCol: Step Type
+Create Steps | button | xpath | //a[contains(@id,'steps-step_create')]//span[text()='Create Step'] | wait 3
+Step Type | radio | xpath | //label[contains(text(),'$.sStep Type')]/input
+Continue | button | xpath | //span[text()='Continue']
+//Task Name | textbox | xpath | //input[contains(@id,'quickfinder1') and contains(@type,'text')]
+Search | button | xpath | //span[text()='Search'] | wait 5
+Task Name | textbox | xpath | //input[contains(@id,'inputTextString1')]
+Refresh | button | xpath | //span[text()='Refresh']
+Select Task | radio | xpath | //span[text()='$.sCode']/../../../td[1]/input | wait 3
+Bottom Select | button | xpath | //a[contains(@id,'bottomSelect')]/span/span/span/span[text()='Select'] | wait 5
+Bottom Continue | button | xpath | //a[contains(@id,'bottomButtons')]/span/span/span/span[text()='Continue'] | wait 3
+*Name | textbox | xpath | //input[contains(@id,'nameID')]
+Description | textbox | xpath | //textarea[contains(@id,'descriptionID')]
+Sequence | textbox | xpath | //input[contains(@id,'sequenceID')]
+*Duration | textbox | xpath | //input[contains(@id,'expectedDurationID')]
+//user selector
+Select User | button | xpath | //span[text()='User']
+search user Name | textbox | xpath | //input[contains(@id,'inputTextString1')]
+Refresh user | button | xpath | //span[text()='Refresh']
+Select User | button | xpath | //td[1]/input
+Select | button | xpath | //a[contains(@id,'bottomSelect')]/span/span/span/span[text()='Select']
+Bottom Finish | button | xpath | //a[contains(@id,'bottomButtons')]/span/span/span/span[text()='Finish']
+Process Main Page | button | xpath | //a[contains(@id,'bcs-0-3')] | wait 3
+stop
+//Process Type
+setExcelRow: PROCESS TYPE
+Add Process | button | xpath | //span[contains(@id,'0-acDimensionListPanel')]/span/a
+Select Process | button | xpath | //span[text()='$.sProcess Type']/../../../td[1]/input
+Bottom Select | button | xpath | //a[contains(@id,'bottomSelect')]/span/span/span/span[text()='Select'] | wait 3
+//Create Transitions
+setExcelRow: CREATE TRANSITION
+Select transitions | button | xpath | //span[text()='Transitions']
+Create Transition | button | xpath | //a[contains(@id,'step_create')]/span[text()='Create Transition'] | wait 12 -p
+From Step Dropdown | button | xpath | //select[contains(@id,'activityNoFrom')]
+From Step | radio | xpath | //select[contains(@id,'activityNoFrom')]/option[text()='$.sFrom Step']
+//From Step | select | xpath | //select[contains(@id,'activityNoFrom')] | unstale,wait 3
+//To Step | select | xpath | //select[contains(@id,'activityNoTo')] | unstale,wait 3
+To Step Dropdown | button | xpath | //select[contains(@id,'activityNoTo')]
+To Step | radio | xpath | //select[contains(@id,'activityNoTo')]/option[text()='$.sTo Step']
+Save | button | xpath | //a[contains(@id,'bottomButtons')]/span/span/span/span[text()='Continue'] | wait 3
+Conditional Requirements Dropdown | button | xpath | //select[contains(@id,'outputTextConditionalOperatorValue')]
+Conditional Requirements | radio | xpath | //select[contains(@id,'outputTextConditionalOperatorValue')]/option[text()='$.sCondition Requirements']
+//Conditional Requirements | select | xpath | //select[contains(@id,'outputTextConditionalOperatorValue')] | unstale,wait 3
+Finish | button | xpath | //a[contains(@id,'bottomButtons')]//span[text()='Finish']
+Process Main Page | button | xpath | //a[contains(@id,'bcs-0-3')] | wait 3
 :Post-Steps
-Save | button | xpath | //a[contains(@id,'UP_SAVE')]//span[text()='Save']
+Activate | button | xpath | //span[text()='Activate'] | wait 12 -p
 :Undo-Steps
 skip:
 
@@ -1391,6 +1397,7 @@ Source | button | xpath | //img[@alt='Source']
 Default Frame | switch default | xpath | //textarea[@id='eSourceField']
 :Post-Steps
 Save | button | xpath | //a[contains(@id,'cmParaEditSaveActionUp')]//span[text()='Save']
+Activate | button | xpath | //span[text()='Activate']
 :Undo-Steps
 Cancel | button | xpath | //a[contains(@id,'cmParaEditCancelActionUp')]//span[text()='Cancel']
 case: Name
@@ -1432,71 +1439,14 @@ Source | button | xpath | //img[@alt='Source']
 *Text | textbox | xpath | //textarea[@id='eSourceField']
 Default Frame | switch default | xpath | //textarea[@id='eSourceField']
 Save Paragraph | button | xpath | //a[@id='editTemplate-editForm-content-parEditPanel-cmParaEditSaveActionDown']//span[text()='Save']
-:Post-Steps
 Activate | button | xpath | //span[text()='Activate']
+back_to_document | button | xpath | //a[contains(text(),'Document') and contains(text(),'$.sName')]
+activate | button | xpath | //span[text()='Activate']
+:Post-Steps
 :Undo-Steps
 case: Code,Name,ParagraphCode,ParagraphName
 Cancel | button | xpath | //a[@id='editTemplate-editForm-content-parEditPanel-cmParaEditCancelActionUp']//span[text()='Cancel']
 end esac
-
-[Create User Defined Forms For Career Section]
-:Properties
-Sheetname | User Defined Forms
-Action | Manual
-Recursive | False
-:Pre-Prep
-Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Career Section Administration | button | xpath | //span[text()='Career Section']/..//span[text()='Administration']
-User-defined Forms | button | xpath | //span[text()='User-defined Forms']/..//a/span[text()='User-defined Forms']
-:Pre-Steps
-Create | button | xpath | //span[text()='Create']
-:Fields
-setExcelCol: Form Type
-Form Type | select | xpath | //span[text()='Select a form type']/..//select
-Use Default | checkbox | xpath | //label[contains(.,'Use the default template')]/../input[@type='checkbox'] | 'case $.sUse Default Template'
-case: Yes,YES,yes
-setExcelCol: *Code
-Create | button | xpath | //span[text()='Create']
-*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
-*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
-Description | textbox | xpath | //label[contains(text(),'Description')]/../input
-Save | button | xpath | //span[text()='Save']
-resume esac
-case: No,NO,no
-setExcelCol: *Code
-Create | button | xpath | //span[text()='Create']
-*Code | textbox | xpath | //label[contains(text(),'Code')]/../input
-*Name | textbox | xpath | //label[contains(text(),'Name')]/../input
-Description | textbox | xpath | //label[contains(text(),'Description')]/../input
-array | 5
-Field Chooser | drag | xpath | //li[text()='$.sFields']
-Check Column | nullable | xpath | //span[text()='Page Content'] | 'case $.sColumn'
-case: Right
-Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[2]
-resume esac
-case: Left
-Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[1]
-resume esac
-Field Type | select | xpath | //label[text()='Field Type']/../..//select
-Mandatory | select | xpath | //label[text()='Mandatory']/../..//select
-Status | select | xpath | //label[text()='Status']/../..//select
-Field Size | textbox | xpath | //label[text()='Field Size']/../..//input
-stop
-//Remove Section 1 and 2
-Select Section 1 | button | xpath | //div[1]/div[text()='Default section title']/..
-Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
-Select Section 3 | button | xpath | //div[3]/div[text()='Default section title']/..
-Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
-Save | button | xpath | //span[text()='Save']
-resume esac
-Refine By | select | xpath | //span[text()='Refine by']/../select | encode: Code
-setExcelCol: *Code
-Search | textbox | xpath | //label[contains(text(),'contains')]/../input
-Refresh | button | xpath | //span[text()='Refine by']/..//span[text()='Refresh']/..
-Activate Form | button | xpath | //td/span[text()='$.s*Code']/../..//span[text()='Activate'] | wait 5 -c :
-:Post-Steps
-:Undo-Steps
-
 
 [Manage Onboarding Message Templates]
 :Properties
@@ -1512,6 +1462,7 @@ Message Templates | button | xpath | //span[text()='Correspondence']/..//span[te
 Header | button | xpath | //span[text()='Message Templates']
 :Fields
 Code | select | xpath | //span[text()='Refine by']/..//select
+SearchBox | textbox-enter | xpath | //span[text()='Refine by']/..//input
 Name | button | xpath | //span[text()='$String'] | wait 15 -c case Edit:case Create
 case: Create
 setExcelRow: Create
@@ -1558,10 +1509,22 @@ Create | button | xpath | //span[text()='Create']
 Code | textbox | xpath | //label[contains(text(),'Code')]/../input
 Name | textbox | xpath | //label[contains(text(),'Name')]/../input
 Check | button | xpath | //label[contains(text(),'Show file upload section below the content page')]/..//input
-File Category | textbox | xpath | //label[contains(text(),'File Category')]/..//input[contains(@type,'text')] | wait 10
+Search | button | xpath | //span[text()='Select']
+search_box | textbox | xpath | //span[text()='Refine by']/../input
+refresh | button | xpath | //span[text()='Refresh']
+select_item | button | xpath | //span[text()='$.sFile Category']/../../../td/input
+select | button | xpath | //span[text()='Select']
 Save | button | xpath | //a[contains(@id,'UP_SAVE')]//span[text()='Save']
+search | button | xpath | //span[text()='Select']
+refine by | select | xpath | //span[text()='Refine by']/../select
+search_box | textbox | xpath | //span[text()='Refine by']/../input
+refresh | button | xpath | //span[text()='Refresh']
+select_item | button | xpath | //span[text()='$.sText Document']/../../../td/input
+select | button | xpath | //span[text()='Select'] | 'case $.sStatus'
+case: Activate
+Activate | button | xpath | //span[text()='Activate']
+resume esac
 Exists | button | xpath | //span[text()='General Documents'] | wait 5 -c throws Created:throws Exists
-//Activate | button | xpath | //span[text()='Activate']
 :Post-Steps
 HeaderCP | h1 | xpath | //span[contains(@id,'pageHeaderTitleText')][text()='Content Pages']
 :Penultimate-Steps
