@@ -408,10 +408,14 @@ public class SeleniumDriver {
 					while (!current.contains("esac")) {
 						iteration += 1;
 						current = fields.elementAt(iteration);
-						if ((iteration + 1) < fieldSize && fields.elementAt(iteration + 1).startsWith("case:")) {
+						if ((iteration + 1) < fieldSize && fields.elementAt(iteration + 1).startsWith("case:")){
+							iteration += 1;
+							while((iteration + 1) < fieldSize && !fields.elementAt(iteration + 1).endsWith("esac")){
+								iteration += 1;
+							}
 							iteration += 1;
 							current = fields.elementAt(iteration);
-						}
+						} 
 					}
 					iteration += 1;
 					continue fieldloop;
@@ -588,6 +592,7 @@ public class SeleniumDriver {
 									while (!current.contentEquals(caseHolder)) {
 										iteration += 1;
 										current = fields.elementAt(iteration);
+										if(current.contentEquals("case: @Default")) break; 
 									}
 									iteration += 1;
 									continue fieldloop;
@@ -1067,11 +1072,14 @@ public class SeleniumDriver {
 					System.out.println(name + " = " + data);
 					Thread.sleep(1000);
 
-				} else if (type.contentEquals("button")) {
+				} else if (type.contains("button")) {
 					// wait.until(ExpectedConditions.elementToBeClickable(getLocator(locatorType,locator)));
 					if (type.contains("js")) {
 						TaskUtilities.jsFindThenClick(locatorType, locator);
-					} else {
+					} else if (type.contentEquals("double")){
+						element.click();
+						element.click();
+					}else {
 						element.click();
 					}
 					System.out.println(name + " " + type + " "+ " is clicked using " + locatorType + " = " + locator);
