@@ -715,7 +715,7 @@ Configuration | button | xpath | //span[text()='Configuration']
 :Properties
 Sheetname | Requisition Types
 Action | Manual
-Recursive | false
+Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
 Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
@@ -1543,7 +1543,7 @@ setExcelCol: *Code
 Description | textbox | xpath | //label[contains(text(),'Description')]/../input
 array | 9
 Field Chooser | drag | xpath | //li[text()='$.sFields']
-Check Section | nullable | xpath | //span[text()='Page Content'] | 'case $.sSection'
+Check Section | nullable | xpath | //div[1]/div[text()='Default section title'] | 'case $.sSection'
 case: 1st
 Check Column | nullable | xpath | //span[text()='Page Content'] | 'case $.sColumn'
 case: Right
@@ -1559,10 +1559,12 @@ resume esac
 case: 2nd
 Check Column | nullable | xpath | //span[text()='Page Content'] | 'case $.sColumn'
 case: Right
-Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[2]['$.sRow'] | wait 5 -c :case First Drop
+Section | button | xpath | //div[2]/div[text()='Default section title']/..//div//tr[$.sRow]/td[2]['$.sRow']
+Section | drop | xpath | //div[2]/div[text()='Default section title']/..//div//tr[$.sRow]/td[2]['$.sRow'] | wait 5 -c :case First Drop
 resume esac
 case: Left
-Section | drop | xpath | //div[2]/div[text()='Default section title']/..//tr[$.sRow]/td[1]['$.sRow'] | wait 5 -c :case First Drop
+Section | button | xpath | //div[2]/div[text()='Default section title']/..//div//tr[$.sRow]/td[1]['$.sRow']
+Section | drop | xpath | //div[2]/div[text()='Default section title']/..//div//tr[$.sRow]/td[1]['$.sRow'] | wait 5 -c :case First Drop
 resume esac
 case: First Drop
 Default Section | drop | xpath | //div[2]/div[text()='Default section title']/following-sibling::div
@@ -1588,8 +1590,12 @@ Field Size | textbox | xpath | //label[text()='Field Size']/../..//input
 stop
 setExcelCol: 1st Section Name
 Rename Section 1 | nullable | xpath | //span[text()='Page Content'] | 'case $.s1st Section Name'
-case: Remove
+case: Remove this section
 Select Section 1 | button | xpath | //div[1]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+resume esac
+case: None,none
+Select Section 1 Name | button | xpath | //div[1]/div[text()='Default section title']
 Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
 resume esac
 case: @Default
@@ -1608,8 +1614,12 @@ Parent Window | switch parent window | xpath | //*
 resume esac
 setExcelCol: 2nd Section Name
 Rename Section 2 | nullable | xpath | //span[text()='Page Content'] | 'case $.s2nd Section Name'
-case: Remove
+case: Remove this section
 Select Section 2 | button | xpath | //div[2]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+resume esac
+case: None,none
+Select Section 2 Name | button | xpath | //div[2]/div[text()='Default section title']
 Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
 resume esac
 case: @Default
@@ -1628,8 +1638,12 @@ Parent Window | switch parent window | xpath | //*
 resume esac
 setExcelCol: 3rd Section Name
 Rename Section 3 | nullable | xpath | //span[text()='Page Content'] | 'case $.s3rd Section Name'
-case: Remove
+case: Remove this section
 Select Section 3 | button | xpath | //div[3]/div[text()='Default section title']/..
+Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
+resume esac
+case: None,none
+Select Section 3 Name | button | xpath | //div[3]/div[text()='Default section title']
 Remove | button | xpath | //table[@title='Delete the element selected in the cell']//img
 resume esac
 case: @Default
