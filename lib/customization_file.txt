@@ -753,9 +753,8 @@ Recursive | false
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
 Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
 Center Stage | button | xpath | //span[text()='General Configuration']/..//span[text()='Center Stage']
-Create | button | xpath | //span[text()='Create']
 :Pre-Steps
-skip:
+Create | button | xpath | //span[text()='Create']
 :Fields
 setExcelCol: Language
 Language | select | xpath | //span[text()='Language']/..//select
@@ -774,6 +773,8 @@ check | button | xpath | //span[text()='$.sElements']/../../../td/input
 Select | button | xpath | //span[@class='button-group-left-top']//span[text()='Select']
 :Post-Steps
 Save | button | xpath | //a[contains(@onclick,'editTemplate-editForm-content-centerStageConfigElementsEditSaveTop')]
+Taleo Recruiting Administration | button | xpath | //a[text()='Taleo Recruiting Administration']
+Center Stage | button | xpath | //span[text()='General Configuration']/..//span[text()='Center Stage']
 
 [Manage Question Type]
 :Properties
