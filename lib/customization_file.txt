@@ -715,18 +715,67 @@ Configuration | button | xpath | //span[text()='Configuration']
 :Properties
 Sheetname | Requisition Types
 Action | Manual
-Recursive | False
+Recursive | false
 :Pre-Prep
 Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
-Administration | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
-requisition_types | button | xpath | //a/span[text()='Requisition Types']
+Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Requisition Types | button | xpath | //span[text()='General Configuration']/..//span[text()='Requisition Types']
 :Pre-Steps
+skip:
 :Fields
-frame_2 | switch | xpath | //frame[3]
-select | button | xpath | //select[@name='availableSelect']/
-add | button | xpath | //span[text()='Add']
+Frame default | switch default | xpath | //span[text()='Done'] | wait 3 -c :
+Frame | switch | xpath | //frame[@name='ContentFrame']
+setExcelCol: Requisition Types
+Action | button | xpath | //span[text()='Available Requisition Types'] | 'case $.sAction'
+case: Add
+Available Requisition Types | select | xpath | //select[@name='availableSelect'] | wait 3 -c :
+Add | button | xpath | //span[text()='Add']
+resume esac
+case: Remove
+Activated Requisition Type | select | xpath | //select[@name='activeSelect'] | wait 3 -c :
+Remove | button | xpath | //span[text()='Remove']
+resume esac
+Frame default | switch default | xpath | //span[text()='Available Requisition Types']
+Frame | switch | xpath | //frame[@name='HeaderFrame']
 :Post-Steps
+skip:
+:Penultimate-Steps
+Done | button | xpath | //span[text()='Done']
 :Undo-Steps
+Cancel | button | xpath | //span[text()='Cancel']
+
+[Manage Center Stage]
+:Properties
+Sheetname | Manage Center Stage
+Action | Manual
+Recursive | false
+:Pre-Prep
+Configuration | button | xpath | //td[@class='applicationNavItem']//span[text()='Configuration']
+Recruiting | button | xpath | //span[text()='Recruiting']/..//span[text()='Administration']
+Center Stage | button | xpath | //span[text()='General Configuration']/..//span[text()='Center Stage']
+Create | button | xpath | //span[text()='Create']
+:Pre-Steps
+skip:
+:Fields
+setExcelCol: Language
+Language | select | xpath | //span[text()='Language']/..//select
+Refresh | button | xpath | //a[@title='Refresh according to selection']
+Code | textbox | xpath | //label[contains(text(),'Code')]/../input
+Status | select | xpath | //label[contains(text(),'Status')]/../select
+Name | textbox | xpath | //label[contains(text(),'Name')]/../input
+Layout | select | xpath | //label[contains(text(),'Layout')]/../select
+Save | button | xpath | //a[contains(@onclick,'editTemplate-editForm-content-centerStageConfigEditSaveBottom')]
+Edit | button | xpath | //span[text()='Channels and Links']/..//span[text()='Edit']
+OK | button | xpath | //span[text()='OK']
+Add | button | xpath | //span[text()='Add']
+Refine by | select | xpath | //span[text()='Refine by']/../select | encode: Code
+search box | textbox | xpath | //label[contains(text(),'contains']/../input
+refresh | button | xpath | //span[text()='Refresh']
+check | button | xpath | //span[text()='$.sElements']/../../../td/input
+Select | button | xpath | //span[@class='button-group-left-top']//span[text()='Select']
+OK | button | xpath | //span[text()='OK']
+:Post-Steps
+Save | button | xpath | //a[contains(@onclick,'editTemplate-editForm-content-centerStageConfigElementsEditSaveTop')]
 
 [Manage Question Type]
 :Properties
