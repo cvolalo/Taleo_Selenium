@@ -1456,9 +1456,9 @@ Action | Manual
 Recursive | False
 :Pre-Prep
 Configuration | button | xpath | //a[contains(@id,'ribbonItemCommandLink')]//span[text()='Configuration'] | wait 3
-:Pre-Steps
 Administration | button | xpath | //span[text()='Onboarding (Transitions)']/../a/span[text()='Administration'] | wait 3
 Paragraphs | button | xpath | //span[text()='Paragraphs'] | wait 3
+:Pre-Steps
 Create | button | xpath | //a[contains(@id,'cmParaListCreateAction')]
 :Fields
 Code | textbox | xpath | //input[contains(@id,'cmParaEditCode')]
@@ -1470,17 +1470,10 @@ Default Frame | switch default | xpath | //textarea[@id='eSourceField']
 :Post-Steps
 Save | button | xpath | //a[contains(@id,'cmParaEditSaveActionUp')]//span[text()='Save']
 Activate | button | xpath | //span[text()='Activate']
+Paragraph | button | xpath | //a[text()='Paragraphs']
 :Undo-Steps
 Cancel | button | xpath | //a[contains(@id,'cmParaEditCancelActionUp')]//span[text()='Cancel']
-case: Name
-cancel | button | xpath | //a[contains(@id,'cmParaEditCancelActionUp')]//span[text()='Cancel']
-end esac
-case: *Code
-cancel | button | xpath | //a[contains(@id,'cmParaEditCancelActionUp')]//span[text()='Cancel']
-end esac
-case: *Text
-cancel | button | xpath | //a[contains(@id,'cmParaEditCancelActionUp')]//span[text()='Cancel']
-end esac
+Paragraph | button | xpath | //a[text()='Paragraphs']
 
 [Manage Onboarding Documents]
 :Properties
