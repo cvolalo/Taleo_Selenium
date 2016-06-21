@@ -766,7 +766,6 @@ Name | textbox | xpath | //label[contains(text(),'Name')]/../input
 Layout | select | xpath | //label[contains(text(),'Layout')]/../select
 Save | button | xpath | //a[contains(@onclick,'editTemplate-editForm-content-centerStageConfigEditSaveBottom')]
 Edit | button | xpath | //span[text()='Channels and Links']/..//span[text()='Edit']
-OK | button | xpath | //span[text()='OK']
 Add | button | xpath | //span[text()='Add']
 Refine by | select | xpath | //span[text()='Refine by']/../select | encode: Code
 search box | textbox | xpath | //label[contains(text(),'contains']/../input
