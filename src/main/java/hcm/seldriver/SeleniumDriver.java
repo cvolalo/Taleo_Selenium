@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.interactions.internal.Coordinates;
 import org.openqa.selenium.internal.Locatable;
@@ -73,7 +74,14 @@ public class SeleniumDriver {
 					driver = new ExtendedFirefoxDriver(getCapability(browser));
 				else {
 					System.setProperty("webdriver.chrome.driver", workspace + "/lib/chromedriver_win32/chromedriver.exe");
-					driver = new ChromeDriver();
+					//Enable Pop ups in chrome
+					ChromeOptions options = new ChromeOptions();
+					options.addArguments("test-type");
+					options.addArguments("disable-popup-blocking");
+					DesiredCapabilities capabilities = DesiredCapabilities.chrome();
+					capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+					//WebDriver driver = new ChromeDriver(capabilities);
+					driver = new ChromeDriver(capabilities);
 				}
 			} else
 				driver = new RemoteWebDriver(new URL(hubURL),getCapability(browser));
